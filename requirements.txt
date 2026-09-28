@@ -1,0 +1,58 @@
+# ──────────────────────────────────────────────────────────────────────────────
+# P-MCP v0.4 — Python requirements
+#
+# Quick start (no hardware):
+#   pip install cryptography websockets
+#   python -m v04.main_pmcp_v4
+#
+# Full install:
+#   pip install -r requirements.txt  (installs core + all optionals)
+#
+# Or use pyproject.toml extras:
+#   pip install pmcp[full]        — everything
+#   pip install pmcp[transport]   — Zenoh + MQTT only
+#   pip install pmcp[industrial]  — OPC UA, Siemens S7, Modbus
+#   pip install pmcp[vision]      — YOLO + OpenCV
+#   pip install pmcp[drivers]     — Serial + UR5 RTDE
+#   pip install pmcp[dev]         — pytest, black, ruff
+# ──────────────────────────────────────────────────────────────────────────────
+
+# ── Core (always required) ────────────────────────────────────────────────────
+cryptography>=41.0.0
+
+# ── Transport ─────────────────────────────────────────────────────────────────
+eclipse-zenoh>=0.11.0        # P2P mesh transport
+asyncio-mqtt>=0.16.2         # MQTT IoT transport
+
+# ── Industrial PLCs ───────────────────────────────────────────────────────────
+asyncua>=1.0.0               # OPC UA (Siemens, B&R, Beckhoff)
+python-snap7>=1.3            # Siemens S7-1200/1500
+pymodbus>=3.5.4              # Modbus TCP/RTU
+
+# ── Vision Pipeline ───────────────────────────────────────────────────────────
+ultralytics>=8.0.0           # YOLOv8 object detection
+opencv-python>=4.8.0         # Camera capture + image processing
+
+# ── Physics HIL (shadow layer simulation) ────────────────────────────────────
+pybullet>=3.2.5              # Ghost robot collision detection
+pybullet_data                # URDF meshes for simulation
+
+# ── Shadow UI (browser dashboard) ────────────────────────────────────────────
+websockets>=12.0             # WebSocket server for 3D preview
+
+# ── Robot Drivers ─────────────────────────────────────────────────────────────
+pyserial>=3.5                # Arduino serial bridge
+ur-rtde>=1.5.7               # Universal Robots UR5/UR10 RTDE
+
+# ── LLM Bridge (optional) ────────────────────────────────────────────────────
+anthropic>=0.28.0            # Claude integration
+
+# ── Dev / Testing ─────────────────────────────────────────────────────────────
+pytest>=7.0
+pytest-asyncio>=0.23.0
+pytest-cov>=4.0
+black>=23.0
+ruff>=0.1.0
+
+# ROS2: install via ros.org for your distro (NOT pip)
+# rclpy moveit_msgs control_msgs nav2_msgs sensor_msgs geometry_msgs

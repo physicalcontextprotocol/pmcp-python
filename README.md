@@ -1,0 +1,31 @@
+# pmcp-python
+
+Python implementation of P-MCP.
+
+## Layout
+- `pmcp/` — the packaged library (`pip install pmcp`, see
+  `pyproject.toml`, version 0.5.0). Includes protocol, physics
+  (Hamiltonian Neural Network validation), digital twin, fleet,
+  learning, and tools submodules.
+- `v05/` — a parallel v0.5 implementation (server, client, types,
+  kinematics, safety, registry, replay, robot_servers/). Overlaps
+  significantly with `pmcp/`.
+- `sdk/` — a third, smaller client/server/safety/types implementation.
+- `tests/` — everything except conformance (unit, integration, e2e,
+  load, security, chaos, benchmark, v05, plus top-level test_types.py
+  / test_compliance.py). Conformance tests now live in
+  `pmcp-conformance`.
+
+## ⚠️ Known issue: duplicate client implementations
+There are at least **four** separate client implementations shipping
+together and not yet consolidated:
+1. `pmcp/client.py`
+2. `pmcp/client_v2.py`
+3. `sdk/client.py`
+4. `v05/pmcp_v5_client.py`
+
+(plus `pmcp/fleet/client.py`, which may be legitimately distinct as a
+fleet-coordination client rather than a duplicate). This split
+preserved all of them as-is — picking a canonical one and deprecating
+the rest is flagged as follow-up work in `MIGRATION_MAP.md` and should
+happen before this repo's first independent release.

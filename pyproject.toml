@@ -1,0 +1,198 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pmcp"
+version = "0.5.0"
+description = "Physical Model Context Protocol — MCP-compatible standard protocol for robots and industrial systems"
+readme = "README.md"
+license = {text = "Apache-2.0"}
+authors = [
+    {name = "P-MCP Contributors", email = "pmcp@example.com"},
+]
+keywords = [
+    "robotics", "llm", "mcp", "model-context-protocol", "safety", "industrial",
+    "protocol", "digital-twin", "shadow-layer", "temporal-lease",
+    "robot-arm", "mobile-robot", "iso10218", "iec62443",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: System :: Hardware",
+    "Topic :: Software Development :: Libraries :: Protocol Libraries",
+]
+requires-python = ">=3.9"
+
+# Core deps only — wire protocol + safety, pure stdlib + cryptography.
+# Hardware / cloud / numerics are optional extras.
+dependencies = [
+    "cryptography>=41.0",
+]
+
+[project.optional-dependencies]
+# Geometric / kinematic shadow sim runs on numpy; pybullet is the optional
+# physics backend used when available.
+numerics = [
+    "numpy>=1.24.0",
+]
+physics = [
+    "numpy>=1.24.0",
+    "pybullet>=3.2",
+]
+# HTTP client transport — required by v05.pmcp_v5_client (backs the
+# pmcp-server / pmcp-demo entry points), pmcp.fleet.client, and the
+# legacy pmcp.client_v2. NOTE: this is a real, load-bearing dependency,
+# not merely a "nice to have" — connect_http() on those clients raises
+# ModuleNotFoundError without it.
+http = [
+    "aiohttp>=3.9",
+]
+# Full install — everything shipping
+full = [
+    "numpy>=1.24.0",
+    "aiohttp>=3.9",
+    "eclipse-zenoh>=0.11",
+    "asyncio-mqtt>=0.16",
+    "websockets>=12.0",
+    "asyncua>=1.0",
+    "python-snap7>=1.3",
+    "pymodbus>=3.5",
+    "pyserial>=3.5",
+    "ultralytics>=8.0",
+    "opencv-python>=4.8",
+    "pybullet>=3.2",
+    "ur-rtde>=1.5",
+]
+# Transport only
+transport = [
+    "eclipse-zenoh>=0.11",
+    "asyncio-mqtt>=0.16",
+]
+# Industrial PLCs
+industrial = [
+    "asyncua>=1.0",
+    "python-snap7>=1.3",
+    "pymodbus>=3.5",
+]
+# Vision pipeline
+vision = [
+    "ultralytics>=8.0",
+    "opencv-python>=4.8",
+]
+# UI
+ui = ["websockets>=12.0"]
+# Hardware drivers
+drivers = [
+    "pyserial>=3.5",
+    "ur-rtde>=1.5",
+]
+# Dev / test
+dev = [
+    "pytest>=7.0",
+    "pytest-asyncio>=0.23",
+    "pytest-cov>=4.0",
+    "black>=23.0",
+    "ruff>=0.1",
+    "mypy>=1.5",
+]
+# Marketplace
+marketplace = [
+    "aiohttp>=3.9",
+]
+# DePIN token economy
+depin = [
+    "aiohttp>=3.9",
+    "web3>=6.0",
+]
+# Federated physics
+federated = [
+    "numpy>=1.24.0",
+    "aiohttp>=3.9",
+]
+# Swarm COO
+swarm = [
+    "aiohttp>=3.9",
+]
+# Edge hardening
+edge = [
+    "aiohttp>=3.9",
+]
+# Optional Gate 4 — Hamiltonian Neural Network energy conservation
+hnn = [
+    "torch>=2.0",
+    "numpy>=1.24.0",
+]
+
+[project.scripts]
+# Only entry points backed by modules that ship in this package (v05/).
+# The former pmcp-hub, pmcp-marketplace, pmcp-depin, pmcp-multisig,
+# pmcp-swarm-coo and pmcp-compliance entries were removed in the pmcp-org
+# split: their target modules now live in pmcp-labs or pmcp-safety and
+# are not importable from this package. Their target functions were also
+# async coroutines, unusable as console_scripts without a sync wrapper.
+pmcp-server      = "v05.pmcp_v5_server:main"
+pmcp-demo        = "v05.main_pmcp_v5:main_cli"
+pmcp-registry    = "v05.pmcp_registry:main"
+
+[project.urls]
+Homepage      = "https://github.com/physicalcontextprotocol/pmcp-python"
+Documentation = "https://github.com/physicalcontextprotocol/pmcp-spec/blob/main/docs/PROTOCOL_README.md"
+Repository    = "https://github.com/physicalcontextprotocol/pmcp-python"
+Issues        = "https://github.com/physicalcontextprotocol/pmcp-python/issues"
+Specification = "https://github.com/physicalcontextprotocol/pmcp-spec/blob/main/docs/PROTOCOL_SPEC.md"
+
+[tool.setuptools.packages.find]
+where = ["."]
+# Only packages that actually live inside pmcp-python. Everything else
+# from the pre-split monorepo (marketplace, depin, multisig, swarm,
+# compliance, edge, cloud, ledger, registry, gateway, simulator,
+# community, reference_impl, safety_loop, tee_attestator, ros2_bridge,
+# typescript_sdk, rust, physics_federation, v01–v04) now lives in
+# pmcp-labs, pmcp-safety, pmcp-servers, pmcp-registry, pmcp-typescript,
+# or pmcp-rust — see MIGRATION_MAP.md at the pmcp-org root.
+include = [
+    "v05*",
+    "pmcp*",
+    "sdk*",
+]
+
+# ── Pytest ──────────────────────────────────────────────────────────────────
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = "-v --tb=short --strict-markers"
+
+# ── Coverage ────────────────────────────────────────────────────────────────
+[tool.coverage.run]
+source = ["v05"]
+omit = ["v05/robot_servers/*"]
+
+[tool.coverage.report]
+show_missing = true
+fail_under = 80
+
+# ── Ruff linting ────────────────────────────────────────────────────────────
+[tool.ruff]
+line-length = 100
+target-version = "py39"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I"]
+ignore = ["E501"]
+
+# ── Black formatting ────────────────────────────────────────────────────────
+[tool.black]
+line-length = 100
+target-version = ["py39", "py310", "py311"]
