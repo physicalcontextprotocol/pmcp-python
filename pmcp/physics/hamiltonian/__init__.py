@@ -11,10 +11,62 @@ Architecture:
 Conservation law enforced: dH/dt ≈ 0 (energy constant along Hamiltonian flow)
 """
 
-from pmcp.physics.hamiltonian.conservation import ConservationChecker
-from pmcp.physics.hamiltonian.encoder import PhaseSpaceEncoder
-from pmcp.physics.hamiltonian.hnn import HamiltonianNN
-from pmcp.physics.hamiltonian.integrators import StormerVerlet, SymplecticIntegrator
+# Everything in this subpackage is resolved lazily, on first attribute
+# access.
+#
+# These five names used to be imported at module scope. Three of the
+# submodules need numpy, and `hamiltonian.hnn` needs torch as well --
+# and torch is an OPTIONAL extra (`pip install pmcp[hnn]`), not a base
+# dependency. Because pmcp/__init__.py re-exports from here, a top-level
+# import made the plain `import pmcp` fail on any machine without torch,
+# which broke the CI smoke-import job on all four Python versions. The
+# bug was invisible locally because the development machine had torch
+# installed.
+#
+# PEP 562 module __getattr__ keeps `from pmcp.physics.hamiltonian import
+# X` working for every name, with no behaviour change for a caller who
+# does have the extras -- the only difference is that the cost is paid
+# on use rather than on import.
+_LAZY = {
+    "HamiltonianNN": "pmcp.physics.hamiltonian.hnn",
+    "PhaseSpaceEncoder": "pmcp.physics.hamiltonian.encoder",
+    "StormerVerlet": "pmcp.physics.hamiltonian.integrators",
+    "SymplecticIntegrator": "pmcp.physics.hamiltonian.integrators",
+    "ConservationChecker": "pmcp.physics.hamiltonian.conservation",
+}
+
+_HINTS = {
+    "torch": ("HamiltonianNN requires torch. Install it with: pip install 'pmcp[hnn]'"),
+    "numpy": (
+        "The Hamiltonian subpackage requires numpy. "
+        "Install it with: pip install 'pmcp[numerics]'"
+    ),
+}
+
+
+def __getattr__(name):
+    module_path = _LAZY.get(name)
+    if module_path is None:
+        raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
+    import importlib
+
+    try:
+        mod = importlib.import_module(module_path)
+    except ImportError as exc:
+        # Report the extra that would fix it, rather than a bare
+        # "No module named 'torch'" from three frames down.
+        for pkg in ("torch", "numpy"):
+            if getattr(exc, "name", "") == pkg or pkg in str(exc):
+                raise ImportError(_HINTS[pkg]) from exc
+        raise
+    value = getattr(mod, name)
+    globals()[name] = value  # cache: later lookups skip this entirely
+    return value
+
+
+def __dir__():
+    return sorted(set(globals()) | set(_LAZY))
+
 
 __all__ = [
     "HamiltonianNN",

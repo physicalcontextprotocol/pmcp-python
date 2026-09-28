@@ -55,12 +55,6 @@ __protocol__ = "P-MCP/0.5"
 __spec_version__ = "2026-05-16"
 
 from pmcp.client import PMCPClient
-from pmcp.physics.hamiltonian import (
-    ConservationChecker,
-    HamiltonianNN,
-    PhaseSpaceEncoder,
-    StormerVerlet,
-)
 from pmcp.safety import SafetyMiddleware
 from pmcp.server import PMCPServer
 from pmcp.twin.hamiltonian_twin import HamiltonianViolationDetector, TwinSynchronizer
@@ -96,6 +90,21 @@ from pmcp.types import (
     ShadowVerdict,
     StopCategory,
 )
+
+# Resolved lazily on first attribute access, because the physics
+# subpackage needs numpy, and HamiltonianNN additionally needs torch --
+# both optional extras. Without this, a bare `import pmcp` failed
+# outright on a machine without torch, which broke the CI smoke-import
+# job on all four Python versions. `from pmcp import HamiltonianNN` still
+# works, and if the extras are missing the error names the extra to
+# install. See pmcp/physics/hamiltonian/__init__.py.
+_LAZY = {
+    "HamiltonianNN": "pmcp.physics.hamiltonian.hnn",
+    "PhaseSpaceEncoder": "pmcp.physics.hamiltonian.encoder",
+    "StormerVerlet": "pmcp.physics.hamiltonian.integrators",
+    "ConservationChecker": "pmcp.physics.hamiltonian.conservation",
+}
+
 
 __all__ = [
     "PMCPServer",
@@ -141,3 +150,24 @@ __all__ = [
     "TwinSynchronizer",
     "HamiltonianViolationDetector",
 ]
+
+
+def __getattr__(name):
+    module_path = _LAZY.get(name)
+    if module_path is None:
+        raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
+    import importlib
+
+    try:
+        mod = importlib.import_module(module_path)
+    except ImportError as exc:
+        raise ImportError(
+            "HamiltonianNN requires torch. Install it with: pip install 'pmcp[hnn]'"
+        ) from exc
+    value = getattr(mod, name)
+    globals()[name] = value
+    return value
+
+
+def __dir__():
+    return sorted(set(globals()) | set(_LAZY))

@@ -175,7 +175,14 @@ jobs:
           cache: pip
 
       - name: Install security tools
-        run: pip install bandit pip-audit
+        # setuptools is upgraded first on purpose. pip-audit scans the
+        # environment it runs in, and the runner's bundled setuptools
+        # carried PYSEC-2026-3447 (fixed in 83.0.0). Nothing we ship
+        # depends on setuptools, but a vulnerable copy in the venv is
+        # still a finding, and it failed the job for no good reason.
+        run: |
+          python -m pip install --upgrade "setuptools>=83.0.0"
+          pip install bandit pip-audit
 
       - name: Run bandit (SAST)
         run: |
