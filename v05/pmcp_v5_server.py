@@ -692,7 +692,9 @@ class PMCPServer:
 
     # ── Public run() entry point ──────────────────────────────────────────────
 
-    async def run(self, transport: str = "stdio", host: str = "127.0.0.1", port: int = 8080) -> None:
+    async def run(
+        self, transport: str = "stdio", host: str = "127.0.0.1", port: int = 8080
+    ) -> None:
         """
         Start the server.
 

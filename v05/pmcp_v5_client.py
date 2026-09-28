@@ -125,7 +125,9 @@ class _HTTPTransport(_Transport):
             req = urllib.request.Request(
                 url, data=data, headers={"Content-Type": "application/json"}
             )
-            with urllib.request.urlopen(req, timeout=30) as r:  # nosec B310 -- scheme validated above (http/https only)
+            with urllib.request.urlopen(
+                req, timeout=30
+            ) as r:  # nosec B310 -- scheme validated above (http/https only)
                 return json.loads(r.read().decode())
 
     async def close(self):

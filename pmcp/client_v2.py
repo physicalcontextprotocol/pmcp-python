@@ -20,14 +20,13 @@ import json
 import logging
 import time
 import warnings as _warnings
-
-from pmcp import __version__
 from contextlib import asynccontextmanager
 from dataclasses import dataclass
 from typing import Any, AsyncIterator, Callable, Dict, List, Optional, Tuple
 
 import aiohttp
 
+from pmcp import __version__
 from pmcp.types import (
     PMCP_VERSION,
     ActuationResult,
