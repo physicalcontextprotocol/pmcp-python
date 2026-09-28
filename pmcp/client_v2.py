@@ -20,6 +20,8 @@ import json
 import logging
 import time
 import warnings as _warnings
+
+from pmcp import __version__
 from contextlib import asynccontextmanager
 from dataclasses import dataclass
 from typing import Any, AsyncIterator, Callable, Dict, List, Optional, Tuple
@@ -131,7 +133,7 @@ class PMCPClient:
                 "protocolVersion": PMCP_VERSION,
                 "clientInfo": {
                     "name": "pmcp-python-client",
-                    "version": "0.5.0",
+                    "version": __version__,
                 },
                 "capabilities": {
                     "notifications": True,

@@ -33,7 +33,23 @@ Usage:
 
 from __future__ import annotations
 
-__version__ = "0.5.0"
+from importlib.metadata import PackageNotFoundError, version as _dist_version
+
+try:
+    # Read it from the installed distribution rather than repeating it
+    # here. A literal in this file silently rotted at 0.5.0 through a
+    # package bump to 1.0.0, and nothing caught it: the stale editable
+    # install reported 0.5.0 too, so the two agreed with each other and
+    # disagreed with pyproject.toml. One source of truth, taken from the
+    # metadata pyproject generates, cannot drift like that.
+    __version__ = _dist_version("pmcp")
+except PackageNotFoundError:  # running from a source tree, not installed
+    __version__ = "0.0.0+unknown"
+
+# The wire protocol is 0.5 and the JSON Schema is 0.6.0. Those are
+# different things on purpose -- see pmcp-spec/docs/PROTOCOL_SPEC.md 3.2,
+# and tests/v05/test_v05_sdk.py asserts the 0.5 prefix. Do not "fix" this
+# to match __version__.
 __protocol__ = "P-MCP/0.5"
 __spec_version__ = "2026-05-16"
 

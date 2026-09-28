@@ -18,6 +18,8 @@ import logging
 import time
 import uuid
 from dataclasses import dataclass, field
+
+from pmcp import __version__
 from typing import Any, Dict, List, Optional, Set, Tuple
 
 try:
@@ -179,7 +181,7 @@ class FleetClient:
                 "initialize",
                 {
                     "protocolVersion": PMCP_VERSION,
-                    "clientInfo": {"name": "pmcp-fleet-client", "version": "0.5.0"},
+                    "clientInfo": {"name": "pmcp-fleet-client", "version": __version__},
                 },
             )
             status = self._status[robot_id]

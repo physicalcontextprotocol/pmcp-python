@@ -14,6 +14,13 @@ Architecture:
   - Physical-only extensions: shadow/*, lease/*, pmcp/estop
 """
 
+from importlib.metadata import PackageNotFoundError, version as _dist_version
+
+try:
+    __version__ = _dist_version("pmcp")
+except PackageNotFoundError:  # running from a source tree, not installed
+    __version__ = "0.0.0+unknown"
+
 from v05.pmcp_registry import PMCPRegistry, RegistryEntry
 from v05.pmcp_safety_v5 import (
     SafetyConstitution,
@@ -34,7 +41,6 @@ from v05.pmcp_v5_types import (
     ShadowPreview,
 )
 
-__version__ = "0.5.0"
 __all__ = [
     "PMCPServer",
     "PMCPClient",

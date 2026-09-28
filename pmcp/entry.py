@@ -18,6 +18,7 @@ import asyncio
 import logging
 import os
 
+from pmcp import __version__
 from pmcp.server import PMCPServer
 
 logging.basicConfig(
@@ -34,7 +35,7 @@ def build_server() -> PMCPServer:
 
     server = PMCPServer(
         name="pmcp-hamiltonian",
-        version="0.5.0",
+        version=__version__,
         robot_id="pmcp-fleet",
         safety_middleware=safety,
     )

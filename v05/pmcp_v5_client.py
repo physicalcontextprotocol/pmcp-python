@@ -166,8 +166,16 @@ class PMCPClient:
       4. call_tool()       — execute with lease token
     """
 
-    def __init__(self, client_name: str = "pmcp-client", client_version: str = "0.5.0"):
+    def __init__(self, client_name: str = "pmcp-client", client_version: str | None = None):
         self._name = client_name
+        if client_version is None:
+            from importlib.metadata import PackageNotFoundError
+            from importlib.metadata import version as _dist_version
+
+            try:
+                client_version = _dist_version("pmcp")
+            except PackageNotFoundError:
+                client_version = "0.0.0+unknown"
         self._version = client_version
         self._transport: Optional[_Transport] = None
         self._server_info: Optional[dict] = None
