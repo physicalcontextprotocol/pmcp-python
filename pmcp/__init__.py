@@ -33,6 +33,7 @@ Usage:
 
 from __future__ import annotations
 
+from importlib import import_module
 from importlib.metadata import PackageNotFoundError
 from importlib.metadata import version as _dist_version
 
@@ -57,7 +58,6 @@ __spec_version__ = "2026-05-16"
 from pmcp.client import PMCPClient
 from pmcp.safety import SafetyMiddleware
 from pmcp.server import PMCPServer
-from pmcp.twin.hamiltonian_twin import HamiltonianViolationDetector, TwinSynchronizer
 from pmcp.types import (
     ActuationResult,
     ActuationSpec,
@@ -99,6 +99,8 @@ from pmcp.types import (
 # works, and if the extras are missing the error names the extra to
 # install. See pmcp/physics/hamiltonian/__init__.py.
 _LAZY = {
+    "TwinSynchronizer": "pmcp.twin.hamiltonian_twin.sync",
+    "HamiltonianViolationDetector": "pmcp.twin.hamiltonian_twin.violation_detector",
     "HamiltonianNN": "pmcp.physics.hamiltonian.hnn",
     "PhaseSpaceEncoder": "pmcp.physics.hamiltonian.encoder",
     "StormerVerlet": "pmcp.physics.hamiltonian.integrators",
@@ -152,18 +154,47 @@ __all__ = [
 ]
 
 
+def _have(dist: str) -> bool:
+    """True if a distribution providing `dist` is importable/installed."""
+    try:
+        _dist_version(dist)
+    except PackageNotFoundError:
+        return False
+    return True
+
+
+# Which extras each lazy name needs, in install order.
+_LAZY_EXTRA = {
+    "HamiltonianNN": ("hnn",),  # the hnn extra pulls numpy too
+    "TwinSynchronizer": ("numerics",),
+    "HamiltonianViolationDetector": ("numerics",),
+    "PhaseSpaceEncoder": ("numerics",),
+    "StormerVerlet": ("numerics",),
+    "ConservationChecker": ("numerics",),
+}
+
+
 def __getattr__(name):
     module_path = _LAZY.get(name)
     if module_path is None:
         raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
-    import importlib
-
     try:
-        mod = importlib.import_module(module_path)
+        mod = import_module(module_path)
     except ImportError as exc:
-        raise ImportError(
-            "HamiltonianNN requires torch. Install it with: pip install 'pmcp[hnn]'"
-        ) from exc
+        # Name the extras that would actually fix it, per name. The first
+        # version of this handler reported "HamiltonianNN requires torch"
+        # for every failure; the second reported "requires numpy" for
+        # every failure. Both sent the reader to the wrong install, and
+        # the hnn extra is not an alternative to numerics -- it includes
+        # it.
+        wanted = _LAZY_EXTRA.get(name, ())
+        missing = [e for e in wanted if not _have(e)]
+        if not missing and "numpy" in str(exc):
+            missing = ["numerics"]  # a transitive dep of one of ours
+        if missing:
+            install = f"Install with: pip install 'pmcp[{','.join(missing)}]'"
+            raise ImportError(f"{name} requires {' and '.join(missing)}. {install}") from exc
+        raise
     value = getattr(mod, name)
     globals()[name] = value
     return value
