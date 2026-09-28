@@ -14,8 +14,8 @@ First tagged public release.
 
 ### Verified
 
-- **187 tests collected. 178 pass, 10 skip** on a default
-  `pip install -e ".[dev,numerics]"`; all 187 pass once the optional
+- **214 tests collected. 213 pass, 1 skip** on a default
+  `pip install -e ".[dev,numerics]"`; all 214 pass once the optional
   `hnn` extra (torch) is installed.
 
   The 10 skips are all Gate-4 HNN tests behind

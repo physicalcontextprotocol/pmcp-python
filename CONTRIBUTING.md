@@ -25,7 +25,7 @@ Optional Gate 4 (Hamiltonian conservation) needs torch:
 
 ## Current state, stated plainly
 
-**187 tests are collected. On a default install 178 pass and 10 skip**,
+**214 tests are collected. On a default install 213 pass and 1 skip**,
 because those 10 are the HNN/torch tests behind the optional `hnn`
 extra. Earlier drafts of this file and of the organization README
 claimed 213 passing; that number was not reproducible, and the
