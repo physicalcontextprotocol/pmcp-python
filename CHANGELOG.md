@@ -1,6 +1,6 @@
 # Changelog — pmcp-python
 
-Changes to the Python SDK (`pip install pmcp`). Organization-wide policy
+Changes to the Python SDK (`pip install physicalcontextprotocol`). Organization-wide policy
 and the maintained list of what is *not* yet proven live in
 [`pmcp-spec`](https://github.com/physicalcontextprotocol/pmcp-spec) —
 see its `LIMITATIONS.md` and `SECURITY.md`.
@@ -8,18 +8,62 @@ see its `LIMITATIONS.md` and `SECURITY.md`.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Removed
+- **62 collected tests asserted against simulators, not the SDK.** Seven files
+  under `tests/` imported only the standard library, so their assertions could
+  not fail because of a defect in `physicalcontextprotocol`. They have been
+  moved to `simulations/` (excluded from pytest by `testpaths`), not deleted:
+  `security/test_mtls.py`, `e2e/test_fleet_workflow.py`,
+  `unit/test_command_validation.py`, `integration/test_integration.py`,
+  `chaos/test_chaos.py`, `utils/test_helpers.py`, `load/test_load.py`.
+  See `simulations/README.md`. The suite is now 159 passed / 1 skipped, and
+  every remaining test exercises real SDK behaviour.
+- `tests/test_compliance.py` renamed to `tests/compliance_runner.py`. It was a
+  CLI conformance runner requiring a live server, not a pytest file, and it
+  contributed 0 tests while emitting 3 collection warnings.
+
+### Fixed
+- **Five integration tests could not fail.** They did
+  `return suite.failed_tests == 0`; pytest treats any non-`None` return as a
+  pass, so a genuinely failing workflow was reported green. They now
+  `assert suite.failed_tests == 0, suite.get_summary()`. pytest has warned
+  that returning a value "will be an error in a future version".
+- `python_classes` widened from `["Test*"]` to `["Test*", "*Test", "*TestSuite"]`
+  so classes named `*TestSuite` are collectable at all. 15 further tests remain
+  uncollectable because pytest refuses classes defining `__init__` and those
+  classes are also instantiated directly; fixing that needs the state setup
+  moved into `setup_method`.
+- `SecurityVulnerabilityTestSuite::test_insecure_defaults` failed once
+  collection was enabled. Its `_check_config_security` helper had no rule for
+  hardcoded `admin_user`/`admin_pass` or for disabled TLS. This was a bug in a
+  test-local simulation, not a product defect, and the file has been moved to
+  `simulations/` rather than patched.
+
+### Changed
+- **Distribution renamed to `physicalcontextprotocol`.** The PyPI name was
+  previously `pmcp`, which is **already taken on PyPI** by an unrelated
+  project ("PMCP - Progressive MCP", github.com/Consiliency/pmcp) — so that
+  name was never publishable. Use `pip install physicalcontextprotocol`.
+- Import namespaces are unchanged (`pmcp`, `sdk`, `v05`), so
+  `from pmcp import PMCPClient` keeps working. The parallel-implementation
+  consolidation is tracked in `pmcp-spec/MIGRATION_MAP.md` and is not
+  addressed by this rename.
+
 ## [1.0.0] — 2026-09-28
 
 First tagged public release.
 
 ### Verified
 
-- **214 tests collected. 213 pass, 1 skip** on a default
-  `pip install -e ".[dev,numerics]"`; all 214 pass once the optional
-  `hnn` extra (torch) is installed.
+- **160 tests collected. 159 pass, 1 skip** on a default
+  `pip install -e ".[dev,numerics]"`.
 
-  The 10 skips are all Gate-4 HNN tests behind
-  `pytest.importorskip("torch")`. They skip, they do not silently pass.
+  The single skip is `test_rule_constructed_missing_torch_fails_fast`
+  in `tests/v05/test_hnn_gate.py`, which cannot run when torch *is*
+  installed (it asserts the missing-dependency path). It skips, it does
+  not silently pass.
 - The 42-test `pmcp-conformance` suite passes against this SDK.
 
   Earlier drafts of this changelog, the organization README, and

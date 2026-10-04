@@ -15,9 +15,11 @@ name: pmcp-python CI
 #      content belongs in the separate pmcp-conformance repo).
 #
 # Every path and job below has been verified against this repo's actual
-# contents and a real local run (`pytest -q` -> 213 passed, 1 skipped,
-# 0 failed; `pytest --collect-only` -> 214 tests across tests/unit,
-# tests/v05, tests/integration, tests/chaos, tests/e2e, tests/load).
+# contents and a real local run (`pytest -q` -> 159 passed, 1 skipped,
+# 0 failed; `pytest --collect-only` -> 160 tests across tests/ and
+# tests/v05). Every collected test imports pmcp/v05/sdk and asserts on real
+# behaviour. Self-contained harnesses that import none of those live in
+# simulations/ and are excluded by testpaths; see simulations/README.md.
 
 on:
   push:
