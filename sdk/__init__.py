@@ -1,12 +1,12 @@
 """
-P-MCP — Physical Model Context Protocol  v0.4
+P-MCP — Physical Context Protocol  v0.4
 ==============================================
-The Python SDK for P-MCP.  Install: pip install pmcp
+The Python SDK for P-MCP.  Install: pip install pcp
 
-    from pmcp.server import PMCPServer
-    from pmcp.client import PMCPClient
-    from pmcp.safety import SafetyMiddleware
-    from pmcp.types  import ActuationResult, SensorReading
+    from pcp.server import PCPServer
+    from pcp.client import PCPClient
+    from pcp.safety import SafetyMiddleware
+    from pcp.types  import ActuationResult, SensorReading
 
 Protocol spec: https://github.com/physicalcontextprotocol/pmcp-spec/blob/main/docs/PROTOCOL_SPEC.md
 """
@@ -16,16 +16,16 @@ __version__      = "0.4.0"
 __protocol__     = "P-MCP/0.4"
 __spec_version__ = "2025-05-04"
 
-from pmcp.types import (          # noqa: F401 — re-export for convenience
+from pcp.types import (          # noqa: F401 — re-export for convenience
     ActuationSpec, ActuationResult,
     SensorSpec, SensorReading, SensorType,
     PromptSpec, PromptResult,
     ShadowPreview, ShadowStatus, ConstitutionCheck,
     LeaseRequest, LeaseGrant,
-    PMCPRequest, PMCPResponse, PMCPNotification,
+    PCPRequest, PCPResponse, PCPNotification,
     ServerInfo, ClientInfo, Capabilities,
-    PMCPError, PMCPErrorCode,
+    PCPError, PCPErrorCode,
 )
-from pmcp.server import PMCPServer     # noqa: F401
-from pmcp.client import PMCPClient     # noqa: F401
-from pmcp.safety import SafetyMiddleware  # noqa: F401
+from pcp.server import PCPServer     # noqa: F401
+from pcp.client import PCPClient     # noqa: F401
+from pcp.safety import SafetyMiddleware  # noqa: F401

@@ -1,7 +1,7 @@
 """
 P-MCP SDK — Types
 =================
-All data types for the Physical Model Context Protocol.
+All data types for the Physical Context Protocol.
 
 Mirrors MCP's type system (JSON-RPC 2.0 envelopes + physical primitives),
 then extends it with the physical safety layer:
@@ -27,7 +27,7 @@ from typing import Any, Dict, List, Optional, Union
 #  PROTOCOL CONSTANTS
 # ─────────────────────────────────────────────────────────────────────────────
 
-PMCP_VERSION       = "0.4"
+PCP_VERSION       = "0.4"
 JSONRPC_VERSION    = "2.0"
 SPEC_DATE          = "2025-05-04"
 
@@ -36,7 +36,7 @@ SPEC_DATE          = "2025-05-04"
 #  ERROR CODES (JSON-RPC standard + P-MCP extensions)
 # ─────────────────────────────────────────────────────────────────────────────
 
-class PMCPErrorCode(int, Enum):
+class PCPErrorCode(int, Enum):
     # JSON-RPC 2.0 standard
     PARSE_ERROR      = -32700
     INVALID_REQUEST  = -32600
@@ -58,8 +58,8 @@ class PMCPErrorCode(int, Enum):
 
 
 @dataclass
-class PMCPError:
-    code:    PMCPErrorCode
+class PCPError:
+    code:    PCPErrorCode
     message: str
     data:    Optional[Any] = None
 
@@ -75,7 +75,7 @@ class PMCPError:
 # ─────────────────────────────────────────────────────────────────────────────
 
 @dataclass
-class PMCPRequest:
+class PCPRequest:
     """JSON-RPC 2.0 request message."""
     method:  str
     params:  Dict[str, Any]          = field(default_factory=dict)
@@ -87,17 +87,17 @@ class PMCPRequest:
                 "method": self.method, "params": self.params}
 
     @classmethod
-    def from_dict(cls, d: dict) -> "PMCPRequest":
+    def from_dict(cls, d: dict) -> "PCPRequest":
         return cls(method=d["method"], params=d.get("params", {}),
                    id=d.get("id", ""), jsonrpc=d.get("jsonrpc", JSONRPC_VERSION))
 
 
 @dataclass
-class PMCPResponse:
+class PCPResponse:
     """JSON-RPC 2.0 response message."""
     id:      str
     result:  Optional[Any]       = None
-    error:   Optional[PMCPError] = None
+    error:   Optional[PCPError] = None
     jsonrpc: str                 = JSONRPC_VERSION
 
     def to_dict(self) -> dict:
@@ -110,7 +110,7 @@ class PMCPResponse:
 
 
 @dataclass
-class PMCPNotification:
+class PCPNotification:
     """JSON-RPC 2.0 notification (no response expected)."""
     method:  str
     params:  Dict[str, Any] = field(default_factory=dict)
@@ -128,7 +128,7 @@ class PMCPNotification:
 class ServerInfo:
     name:             str
     version:          str
-    protocol_version: str = PMCP_VERSION
+    protocol_version: str = PCP_VERSION
 
     def to_dict(self) -> dict:
         return {"name": self.name, "version": self.version,
@@ -287,7 +287,7 @@ class SensorSpec:
     Describes a physical sensor (P-MCP primitive #2).
 
     Analogous to MCP Resource, but exposes real-time physical data.
-    URI format:  pmcp://sensor/{robot_id}/{sensor_name}
+    URI format:  pcp://sensor/{robot_id}/{sensor_name}
     """
     name:          str
     description:   str
@@ -300,14 +300,14 @@ class SensorSpec:
 
     @property
     def uri(self) -> str:
-        return f"pmcp://sensor/{self.name}"
+        return f"pcp://sensor/{self.name}"
 
     def to_dict(self) -> dict:
         return {
             "name":         self.name,
             "uri":          self.uri,
             "description":  self.description,
-            "mimeType":     "application/pmcp-sensor",
+            "mimeType":     "application/pcp-sensor",
             "physical": {
                 "sensorType":    self.sensor_type.value,
                 "unit":          self.unit,

@@ -22,15 +22,15 @@ from typing import Dict, List
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "../../.."))
 
-from v05.pmcp_v5_server import PMCPServer
-from v05.pmcp_v5_types import (
+from v05.pcp_v5_server import PCPServer
+from v05.pcp_v5_types import (
     ActuationResult,
     MissionResult,
     SensorReading,
     SensorType,
 )
 
-log = logging.getLogger("pmcp.agri_server")
+log = logging.getLogger("pcp.agri_server")
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -116,9 +116,9 @@ class GreenhouseState:
 
 def build_agricultural_server(
     name: str = "agri-bot-01", model: str = "HarvestBot-X", location: str = "greenhouse-1"
-) -> PMCPServer:
+) -> PCPServer:
 
-    server = PMCPServer(
+    server = PCPServer(
         name=name,
         version="1.0.0",
         robot_class="arm",

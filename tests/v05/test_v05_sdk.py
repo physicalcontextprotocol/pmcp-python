@@ -2,11 +2,11 @@
 P-MCP v0.5 SDK — Unit Tests
 ============================
 Tests for the shipping v0.5 surface:
-  - PMCPServer construction and decorator API
+  - PCPServer construction and decorator API
   - SafetyConstitution (all 6 default rules)
   - ShadowSimulator (geometric fallback)
   - SafetyMiddleware.check() (constitution → shadow → execute pipeline)
-  - PMCPRegistry
+  - PCPRegistry
   - Public types (ActuationResult, SensorReading, etc.)
 """
 from __future__ import annotations
@@ -14,25 +14,25 @@ from __future__ import annotations
 import asyncio
 import unittest
 
-from v05.pmcp_v5_server import PMCPServer, _LeaseManager
-from v05.pmcp_v5_types import (
+from v05.pcp_v5_server import PCPServer, _LeaseManager
+from v05.pcp_v5_types import (
     ActuationResult,
     Capabilities,
     LeaseRequest,
     LeaseState,
     MCP_VERSION,
-    PMCP_VERSION,
+    PCP_VERSION,
     SensorReading,
     SensorType,
     ShadowPreview,
     ShadowStatus,
 )
-from v05.pmcp_safety_v5 import (
+from v05.pcp_safety_v5 import (
     SafetyConstitution,
     SafetyMiddleware,
     ShadowSimulator,
 )
-from v05.pmcp_registry import PMCPRegistry, RegistryEntry
+from v05.pcp_registry import PCPRegistry, RegistryEntry
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -62,7 +62,7 @@ class TestTypes(unittest.TestCase):
         self.assertEqual(len(s.value), 3)
 
     def test_version_constants_present(self):
-        self.assertTrue(PMCP_VERSION.startswith("0.5"))
+        self.assertTrue(PCP_VERSION.startswith("0.5"))
         self.assertTrue(MCP_VERSION)
 
 
@@ -250,23 +250,23 @@ class TestLeaseManager(unittest.TestCase):
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-#  PMCPServer
+#  PCPServer
 # ─────────────────────────────────────────────────────────────────────────────
 
-class TestPMCPServer(unittest.TestCase):
+class TestPCPServer(unittest.TestCase):
     def test_constructs_with_defaults(self):
-        s = PMCPServer("ur5-arm-01")
+        s = PCPServer("ur5-arm-01")
         self.assertEqual(s.name, "ur5-arm-01")
         self.assertEqual(s.version, "1.0.0")
         self.assertEqual(s.robot_id, "ur5-arm-01")
 
     def test_identity_generated(self):
-        s = PMCPServer("ur5-arm-01", robot_class="arm", model="UR5e", serial="ABC123")
+        s = PCPServer("ur5-arm-01", robot_class="arm", model="UR5e", serial="ABC123")
         self.assertEqual(s.identity.robot_class, "arm")
         self.assertEqual(s.identity.model, "UR5e")
 
     def test_actuation_decorator_registers(self):
-        s = PMCPServer("ur5-arm-01")
+        s = PCPServer("ur5-arm-01")
 
         @s.actuation("move_to", description="Move TCP to XYZ")
         async def move_to(x: float, y: float, z: float):
@@ -278,7 +278,7 @@ class TestPMCPServer(unittest.TestCase):
         self.assertEqual(spec.description, "Move TCP to XYZ")
 
     def test_sensor_decorator_registers(self):
-        s = PMCPServer("ur5-arm-01")
+        s = PCPServer("ur5-arm-01")
 
         @s.sensor("joint_angles", description="Joint angles",
                   sensor_type=SensorType.JOINT_STATES, unit="rad")
@@ -293,7 +293,7 @@ class TestPMCPServer(unittest.TestCase):
         self.assertIn("joint_angles", s._sensors)
 
     def test_mission_decorator_registers(self):
-        s = PMCPServer("ur5-arm-01")
+        s = PCPServer("ur5-arm-01")
 
         @s.mission("pick_and_place", description="Pick and place")
         async def mission():
@@ -302,7 +302,7 @@ class TestPMCPServer(unittest.TestCase):
         self.assertIn("pick_and_place", s._missions)
 
     def test_initialize_handler_returns_protocol_metadata(self):
-        s = PMCPServer("ur5-arm-01")
+        s = PCPServer("ur5-arm-01")
 
         async def run():
             return await s._h_initialize({
@@ -315,12 +315,12 @@ class TestPMCPServer(unittest.TestCase):
         self.assertEqual(resp["protocolVersion"], MCP_VERSION)
         self.assertIn("serverInfo", resp)
         self.assertIn("capabilities", resp)
-        self.assertIn("pmcp", resp)
-        self.assertEqual(resp["pmcp"]["version"], PMCP_VERSION)
-        self.assertEqual(resp["pmcp"]["robotId"], "ur5-arm-01")
+        self.assertIn("pcp", resp)
+        self.assertEqual(resp["pcp"]["version"], PCP_VERSION)
+        self.assertEqual(resp["pcp"]["robotId"], "ur5-arm-01")
 
     def test_tools_list_returns_registered_actuations(self):
-        s = PMCPServer("ur5-arm-01")
+        s = PCPServer("ur5-arm-01")
 
         @s.actuation("move_to", description="Move")
         async def move_to(x: float):
@@ -347,14 +347,14 @@ class TestRegistry(unittest.TestCase):
         )
 
     def test_register_and_lookup(self):
-        reg = PMCPRegistry()
+        reg = PCPRegistry()
         reg.register(self._entry("ur5-arm-01"))
         found = reg.get("ur5-arm-01")
         self.assertIsNotNone(found)
         self.assertEqual(found.robot_id, "ur5-arm-01")
 
     def test_list_by_class(self):
-        reg = PMCPRegistry()
+        reg = PCPRegistry()
         reg.register(self._entry("arm-1", cls="arm"))
         reg.register(self._entry("mobile-1", cls="mobile"))
         arms = reg.find(robot_class="arm")
@@ -362,13 +362,13 @@ class TestRegistry(unittest.TestCase):
         self.assertEqual(arms[0].robot_id, "arm-1")
 
     def test_deregister(self):
-        reg = PMCPRegistry()
+        reg = PCPRegistry()
         reg.register(self._entry("x"))
         reg.deregister("x")
         self.assertIsNone(reg.get("x"))
 
     def test_to_dict_roundtrip(self):
-        reg = PMCPRegistry()
+        reg = PCPRegistry()
         reg.register(self._entry("a"))
         d = reg.get("a").to_dict()
         self.assertEqual(d["id"], "a")

@@ -10,13 +10,13 @@ This is P-MCP's killer feature vs plain MCP — three automatic safety layers:
 
 Usage:
 
-    from pmcp.safety import SafetyMiddleware
-    from pmcp.server import PMCPServer
+    from pcp.safety import SafetyMiddleware
+    from pcp.server import PCPServer
 
     # Build middleware with constitution rules
     safety = SafetyMiddleware.default(robot_id="arm-01")
 
-    server = PMCPServer("ur5-server", safety_middleware=safety)
+    server = PCPServer("ur5-server", safety_middleware=safety)
 
     @server.actuation("move_to")
     async def move_to(x, y, z, speed=0.3):
@@ -38,7 +38,7 @@ import time
 import uuid
 from typing import Any, Callable, Dict, List, Optional, Tuple
 
-from pmcp.types import (
+from pcp.types import (
     ConstitutionCheck, LeaseGrant, LeaseRequest,
     ShadowPreview, ShadowStatus,
 )

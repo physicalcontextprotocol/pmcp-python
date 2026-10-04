@@ -14,7 +14,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "physicalcontextprotocol"
 version = "1.0.0"
-description = "Physical Model Context Protocol — MCP-compatible standard protocol for robots and industrial systems"
+description = "Physical Context Protocol — MCP-compatible standard protocol for robots and industrial systems"
 readme = "README.md"
 license = "Apache-2.0"
 license-files = ["LICENSE"]
@@ -57,9 +57,9 @@ physics = [
     "numpy>=1.24.0",
     "pybullet>=3.2",
 ]
-# HTTP client transport — required by v05.pmcp_v5_client (backs the
-# pmcp-server / pmcp-demo entry points), pmcp.fleet.client, and the
-# legacy pmcp.client_v2. NOTE: this is a real, load-bearing dependency,
+# HTTP client transport — required by v05.pcp_v5_client (backs the
+# pcp-server / pcp-demo entry points), pcp.fleet.client, and the
+# legacy pcp.client_v2. NOTE: this is a real, load-bearing dependency,
 # not merely a "nice to have" — connect_http() on those clients raises
 # ModuleNotFoundError without it.
 http = [
@@ -149,14 +149,14 @@ hnn = [
 
 [project.scripts]
 # Only entry points backed by modules that ship in this package (v05/).
-# The former pmcp-hub, pmcp-marketplace, pmcp-depin, pmcp-multisig,
-# pmcp-swarm-coo and pmcp-compliance entries were removed in the pmcp-org
+# The former pcp-hub, pcp-marketplace, pcp-depin, pcp-multisig,
+# pcp-swarm-coo and pcp-compliance entries were removed in the pmcp-org
 # split: their target modules now live in pmcp-labs or pmcp-safety and
 # are not importable from this package. Their target functions were also
 # async coroutines, unusable as console_scripts without a sync wrapper.
-pmcp-server      = "v05.pmcp_v5_server:main"
-pmcp-demo        = "v05.main_pmcp_v5:main_cli"
-pmcp-registry    = "v05.pmcp_registry:main"
+pcp-server      = "v05.pcp_v5_server:main"
+pcp-demo        = "v05.main_pcp_v5:main_cli"
+pcp-registry    = "v05.pcp_registry:main"
 
 [project.urls]
 Homepage      = "https://github.com/physicalcontextprotocol/pmcp-python"
@@ -176,7 +176,7 @@ where = ["."]
 # or pmcp-rust — see MIGRATION_MAP.md at the pmcp-org root.
 include = [
     "v05*",
-    "pmcp*",
+    "pcp*",
     "sdk*",
 ]
 
@@ -192,17 +192,17 @@ addopts = "-v --tb=short --strict-markers"
 # ── Coverage ────────────────────────────────────────────────────────────────
 [tool.coverage.run]
 # v05 only, deliberately. The test suite under tests/ exercises the v05
-# package and nothing else: every one of the 34 modules under pmcp/ is
+# package and nothing else: every one of the 34 modules under pcp/ is
 # imported by no test, so including it here reports a 0% average for a
 # package that is not under test, and drags the total from 80% down to
-# 27%. The CI job used to pass --cov=pmcp on top of this, which is what
+# 27%. The CI job used to pass --cov=pcp on top of this, which is what
 # produced that number. The 80% gate was written against v05 and v05
 # meets it.
 #
-# pmcp/ is not abandoned -- it is a parallel, less-tested implementation
+# pcp/ is not abandoned -- it is a parallel, less-tested implementation
 # (see the four-clients note in LIMITATIONS.md). Its real coverage is
 # low and that is worth knowing, so it is measured and reported
-# separately below rather than deleted from the picture. Add `--cov=pmcp`
+# separately below rather than deleted from the picture. Add `--cov=pcp`
 # back when tests for it exist.
 source = ["v05"]
 omit = ["v05/robot_servers/*"]

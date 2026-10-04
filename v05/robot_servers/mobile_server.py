@@ -22,21 +22,21 @@ import sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "../../.."))
 
-from v05.pmcp_safety_v5 import (
+from v05.pcp_safety_v5 import (
     SafetyConstitution,
     SafetyMiddleware,
     ShadowSimulator,
     WorkspaceBoxRule,
 )
-from v05.pmcp_v5_server import PMCPServer, _LeaseManager
-from v05.pmcp_v5_types import (
+from v05.pcp_v5_server import PCPServer, _LeaseManager
+from v05.pcp_v5_types import (
     ActuationResult,
     MissionResult,
     SensorReading,
     SensorType,
 )
 
-log = logging.getLogger("pmcp.mobile_server")
+log = logging.getLogger("pcp.mobile_server")
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -107,10 +107,10 @@ def build_mobile_server(
     model: str = "TurtleBot4",
     serial: str = "2024-M01",
     location: str = "floor-1",
-) -> PMCPServer:
+) -> PCPServer:
 
     # Mobile robots navigate large areas — use a 200m × 200m workspace box
-    from v05.pmcp_safety_v5 import (
+    from v05.pcp_safety_v5 import (
         EnergyBudgetRule,
         EStopRule,
         FloorGuardRule,
@@ -140,7 +140,7 @@ def build_mobile_server(
         lease_mgr,
     )
 
-    server = PMCPServer(
+    server = PCPServer(
         name=name,
         version="1.0.0",
         robot_class="mobile",

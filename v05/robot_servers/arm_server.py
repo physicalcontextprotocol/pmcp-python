@@ -35,15 +35,15 @@ from typing import List
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "../../.."))
 
-from v05.pmcp_v5_server import PMCPServer
-from v05.pmcp_v5_types import (
+from v05.pcp_v5_server import PCPServer
+from v05.pcp_v5_types import (
     ActuationResult,
     MissionResult,
     SensorReading,
     SensorType,
 )
 
-log = logging.getLogger("pmcp.arm_server")
+log = logging.getLogger("pcp.arm_server")
 
 # ─────────────────────────────────────────────────────────────────────────────
 #  SIMULATED ARM STATE
@@ -123,9 +123,9 @@ def build_arm_server(
     model: str = "UR5e",
     serial: str = "2024-001",
     location: str = "cell-A",
-) -> PMCPServer:
+) -> PCPServer:
 
-    server = PMCPServer(
+    server = PCPServer(
         name=name,
         version="1.0.0",
         robot_class="arm",

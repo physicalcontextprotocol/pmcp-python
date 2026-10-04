@@ -14,10 +14,10 @@ np = pytest.importorskip(
     "numpy", reason="numpy not installed — install the 'numerics' or 'hnn' extra"
 )
 torch = pytest.importorskip(
-    "torch", reason="torch not installed — install the 'hnn' extra (pip install pmcp[hnn])"
+    "torch", reason="torch not installed — install the 'hnn' extra (pip install pcp[hnn])"
 )
 
-from pmcp.physics.hamiltonian import (
+from pcp.physics.hamiltonian import (
     HamiltonianNN,
     PhaseSpaceEncoder,
     StormerVerlet,

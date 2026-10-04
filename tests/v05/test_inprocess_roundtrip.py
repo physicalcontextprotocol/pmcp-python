@@ -1,7 +1,7 @@
 """
 P-MCP v0.5 — End-to-end integration test
 =========================================
-Drives a real PMCPServer through a real PMCPClient over the in-process
+Drives a real PCPServer through a real PCPClient over the in-process
 transport, verifying the full MCP handshake: initialize → tools/list →
 tools/call, including the safety pipeline blocking an unsafe call.
 """
@@ -10,13 +10,13 @@ from __future__ import annotations
 import asyncio
 import unittest
 
-from v05.pmcp_v5_server import PMCPServer
-from v05.pmcp_v5_types import ActuationResult, SensorReading, SensorType
-from v05.pmcp_v5_client import PMCPClient
+from v05.pcp_v5_server import PCPServer
+from v05.pcp_v5_types import ActuationResult, SensorReading, SensorType
+from v05.pcp_v5_client import PCPClient
 
 
-def _make_server() -> PMCPServer:
-    server = PMCPServer("test-robot-ip", robot_class="arm", model="MockArm")
+def _make_server() -> PCPServer:
+    server = PCPServer("test-robot-ip", robot_class="arm", model="MockArm")
 
     @server.actuation("move_to", description="Move TCP to XYZ")
     async def move_to(x: float, y: float, z: float, speed: float = 0.3):
@@ -46,7 +46,7 @@ class TestInProcessRoundtrip(unittest.TestCase):
         server = _make_server()
 
         async def run():
-            client = PMCPClient(client_name="test", client_version="0.0.1")
+            client = PCPClient(client_name="test", client_version="0.0.1")
             await client.connect_server(server)
             try:
                 # 1) initialize
@@ -73,7 +73,7 @@ class TestInProcessRoundtrip(unittest.TestCase):
         server = _make_server()
 
         async def run():
-            client = PMCPClient()
+            client = PCPClient()
             await client.connect_server(server)
             try:
                 await client.initialize() if hasattr(client, "initialize") else None

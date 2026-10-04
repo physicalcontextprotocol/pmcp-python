@@ -1,13 +1,13 @@
 """
-P-MCP SDK — PMCPServer
+P-MCP SDK — PCPServer
 ======================
 The core server class. Analogous to MCP's `mcp.server.Server`.
 
 Usage:
 
-    from pmcp.server import PMCPServer
+    from pcp.server import PCPServer
 
-    server = PMCPServer("my-arm", version="1.0.0")
+    server = PCPServer("my-arm", version="1.0.0")
 
     @server.actuation("move_to", description="Move end-effector to XYZ position")
     async def move_to(x: float, y: float, z: float, speed: float = 0.3):
@@ -42,16 +42,16 @@ import time
 import uuid
 from typing import Any, Callable, Dict, List, Optional, Type
 
-from pmcp.types import (
+from pcp.types import (
     ActuationParameter, ActuationResult, ActuationSpec,
     Capabilities, ClientInfo, ConstitutionCheck,
     LeaseGrant, LeaseRequest,
-    PMCPError, PMCPErrorCode, PMCPNotification, PMCPRequest, PMCPResponse,
+    PCPError, PCPErrorCode, PCPNotification, PCPRequest, PCPResponse,
     PromptResult, PromptSpec, SensorReading, SensorSpec, SensorType,
-    ServerInfo, ShadowPreview, ShadowStatus, PMCP_VERSION,
+    ServerInfo, ShadowPreview, ShadowStatus, PCP_VERSION,
 )
 
-log = logging.getLogger("pmcp.server")
+log = logging.getLogger("pcp.server")
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -74,10 +74,10 @@ class _SensorHandler:
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-#  PMCP SERVER
+#  PCP SERVER
 # ─────────────────────────────────────────────────────────────────────────────
 
-class PMCPServer:
+class PCPServer:
     """
     P-MCP Server — the robot-side endpoint of the protocol.
 
@@ -211,12 +211,12 @@ class PMCPServer:
 
     async def _handle_initialize(self, params: dict, _req_id: str) -> dict:
         client_info = params.get("clientInfo", {})
-        proto_ver   = params.get("protocolVersion", PMCP_VERSION)
+        proto_ver   = params.get("protocolVersion", PCP_VERSION)
         self._connected_clients.append(client_info.get("name", "unknown"))
         self._started_at = time.time()
 
         return {
-            "protocolVersion": PMCP_VERSION,
+            "protocolVersion": PCP_VERSION,
             "capabilities": self.caps.to_dict(),
             "serverInfo": ServerInfo(
                 name=self.name, version=self.version).to_dict(),
@@ -240,7 +240,7 @@ class PMCPServer:
     async def _handle_prompts_get(self, params: dict, _req_id: str) -> dict:
         name = params.get("name", "")
         if name not in self._prompts:
-            raise PMCPError(PMCPErrorCode.METHOD_NOT_FOUND, f"Prompt '{name}' not found")
+            raise PCPError(PCPErrorCode.METHOD_NOT_FOUND, f"Prompt '{name}' not found")
         spec, fn = self._prompts[name]
         args = params.get("arguments", {})
         result: PromptResult = await fn(**args)
@@ -249,12 +249,12 @@ class PMCPServer:
     async def _handle_sensors_read(self, params: dict, _req_id: str) -> dict:
         name = params.get("name", "")
         if name not in self._sensors:
-            raise PMCPError(PMCPErrorCode.METHOD_NOT_FOUND, f"Sensor '{name}' not found")
+            raise PCPError(PCPErrorCode.METHOD_NOT_FOUND, f"Sensor '{name}' not found")
         handler = self._sensors[name]
         reading: SensorReading = await handler.fn()
         reading.sensor_name = name
         return {"contents": [{"uri": handler.spec.uri,
-                               "mimeType": "application/pmcp-sensor",
+                               "mimeType": "application/pcp-sensor",
                                "data": reading.to_dict()}]}
 
     async def _handle_actuations_call(self, params: dict, req_id: str) -> dict:
@@ -271,7 +271,7 @@ class PMCPServer:
         lease_token = params.get("leaseToken")
 
         if name not in self._actuations:
-            raise PMCPError(PMCPErrorCode.METHOD_NOT_FOUND,
+            raise PCPError(PCPErrorCode.METHOD_NOT_FOUND,
                             f"Actuation '{name}' not found. "
                             f"Available: {list(self._actuations.keys())}")
 
@@ -287,7 +287,7 @@ class PMCPServer:
             cleared, violations = self.safety.check_constitution(payload)
             if not cleared:
                 self._blocked_count += 1
-                raise PMCPError(PMCPErrorCode.CONSTITUTION_BLOCKED,
+                raise PCPError(PCPErrorCode.CONSTITUTION_BLOCKED,
                                 f"Safety constitution blocked: {'; '.join(violations)}",
                                 data={"violations": violations})
 
@@ -296,7 +296,7 @@ class PMCPServer:
                 shadow = await self.safety.run_shadow(name, robot_id, arguments)
                 if not shadow.safe:
                     self._blocked_count += 1
-                    raise PMCPError(PMCPErrorCode.SHADOW_BLOCKED,
+                    raise PCPError(PCPErrorCode.SHADOW_BLOCKED,
                                     f"Shadow preview blocked: {'; '.join(shadow.violations)}",
                                     data=shadow.to_dict())
 
@@ -312,10 +312,10 @@ class PMCPServer:
             result.robot_id = robot_id
             return {"content": [{"type": "actuation", "data": result.to_dict()}],
                     "isError": not result.success}
-        except PMCPError:
+        except PCPError:
             raise
         except Exception as exc:
-            raise PMCPError(PMCPErrorCode.INTERNAL_ERROR,
+            raise PCPError(PCPErrorCode.INTERNAL_ERROR,
                             f"Actuation '{name}' raised: {exc}") from exc
 
     async def _handle_shadow_preview(self, params: dict, _req_id: str) -> dict:
@@ -325,7 +325,7 @@ class PMCPServer:
         arguments = params.get("arguments", {})
 
         if name not in self._actuations:
-            raise PMCPError(PMCPErrorCode.METHOD_NOT_FOUND,
+            raise PCPError(PCPErrorCode.METHOD_NOT_FOUND,
                             f"Actuation '{name}' not found")
 
         if self.safety:
@@ -382,22 +382,22 @@ class PMCPServer:
 
         handler = self._request_handlers.get(method)
         if not handler:
-            return PMCPResponse(
+            return PCPResponse(
                 id=req_id,
-                error=PMCPError(PMCPErrorCode.METHOD_NOT_FOUND,
+                error=PCPError(PCPErrorCode.METHOD_NOT_FOUND,
                                 f"Unknown method: {method}"),
             ).to_dict()
 
         try:
             result = await handler(params, req_id)
-            return PMCPResponse(id=req_id, result=result).to_dict()
-        except PMCPError as e:
-            return PMCPResponse(id=req_id, error=e).to_dict()
+            return PCPResponse(id=req_id, result=result).to_dict()
+        except PCPError as e:
+            return PCPResponse(id=req_id, error=e).to_dict()
         except Exception as e:
             log.error(f"Internal error in {method}: {e}", exc_info=True)
-            return PMCPResponse(
+            return PCPResponse(
                 id=req_id,
-                error=PMCPError(PMCPErrorCode.INTERNAL_ERROR, str(e)),
+                error=PCPError(PCPErrorCode.INTERNAL_ERROR, str(e)),
             ).to_dict()
 
     # ── Transport ─────────────────────────────────────────────────────────────
@@ -407,7 +407,7 @@ class PMCPServer:
         Start the P-MCP server.
 
         transport: "stdio"  — reads JSON-RPC from stdin, writes to stdout (default)
-                   "http"   — serves HTTP POST /pmcp endpoint
+                   "http"   — serves HTTP POST /pcp endpoint
         """
         log.info(f"  🤖  P-MCP Server '{self.name}' starting "
                  f"(transport={transport}, actuations={len(self._actuations)}, "
@@ -437,8 +437,8 @@ class PMCPServer:
                     sys.stdout.write(json.dumps(response) + "\n")
                     sys.stdout.flush()
             except json.JSONDecodeError as e:
-                err = PMCPResponse(
-                    id="", error=PMCPError(PMCPErrorCode.PARSE_ERROR, str(e))).to_dict()
+                err = PCPResponse(
+                    id="", error=PCPError(PCPErrorCode.PARSE_ERROR, str(e))).to_dict()
                 sys.stdout.write(json.dumps(err) + "\n")
                 sys.stdout.flush()
             except EOFError:

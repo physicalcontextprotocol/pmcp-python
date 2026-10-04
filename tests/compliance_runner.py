@@ -20,7 +20,7 @@ from dataclasses import dataclass, field
 from typing import Any, Dict, List, Optional, Callable
 from enum import Enum
 
-from v05.pmcp_v5_types import PMCP_VERSION, MCP_VERSION
+from v05.pcp_v5_types import PCP_VERSION, MCP_VERSION
 
 
 class TestResult(Enum):
@@ -50,7 +50,7 @@ class TestRun:
     details: Dict[str, Any] = field(default_factory=dict)
 
 
-class PMCPComplianceRunner:
+class PCPComplianceRunner:
     """Compliance test runner for P-MCP servers."""
 
     def __init__(self, transport: str = "stdio", server_cmd: Optional[List[str]] = None,
@@ -102,7 +102,7 @@ class PMCPComplianceRunner:
             import aiohttp
             async with aiohttp.ClientSession() as session:
                 async with session.post(
-                    f"{self.server_url}/pmcp",
+                    f"{self.server_url}/pcp",
                     json=request,
                     headers={"Content-Type": "application/json"}
                 ) as resp:
@@ -191,7 +191,7 @@ class PMCPComplianceRunner:
                 expected={
                     "protocolVersion": MCP_VERSION,
                     "serverInfo": {},
-                    "pmcp": {},
+                    "pcp": {},
                 },
                 category="mcp",
             ),
@@ -272,31 +272,31 @@ class PMCPComplianceRunner:
             ),
             # P-MCP Extension Methods
             TestCase(
-                name="pmcp_status",
+                name="pcp_status",
                 description="Get server status",
-                method="pmcp/status",
+                method="pcp/status",
                 params={},
-                expected={"robot_id": "", "pmcp_version": PMCP_VERSION},
-                validator=lambda r: all(k in r for k in ["robot_id", "pmcp_version", "uptime_s"]),
-                category="pmcp",
+                expected={"robot_id": "", "pcp_version": PCP_VERSION},
+                validator=lambda r: all(k in r for k in ["robot_id", "pcp_version", "uptime_s"]),
+                category="pcp",
             ),
             TestCase(
-                name="pmcp_identity",
+                name="pcp_identity",
                 description="Get robot identity",
-                method="pmcp/identity",
+                method="pcp/identity",
                 params={},
                 expected={},
                 validator=lambda r: all(k in r for k in ["did", "class", "model"]),
-                category="pmcp",
+                category="pcp",
             ),
             TestCase(
-                name="pmcp_constitution",
+                name="pcp_constitution",
                 description="Get safety constitution summary",
-                method="pmcp/constitution",
+                method="pcp/constitution",
                 params={},
                 expected={},
                 validator=lambda r: "fingerprint" in r,
-                category="pmcp",
+                category="pcp",
             ),
             TestCase(
                 name="lease_request_grant",
@@ -310,7 +310,7 @@ class PMCPComplianceRunner:
                 },
                 expected={},
                 validator=lambda r: r.get("lease", {}).get("state") == "ACTIVE",
-                category="pmcp",
+                category="pcp",
             ),
             TestCase(
                 name="lease_release",
@@ -318,23 +318,23 @@ class PMCPComplianceRunner:
                 method="lease/release",
                 params={"leaseId": "test-lease"},
                 expected={},
-                category="pmcp",
+                category="pcp",
             ),
             TestCase(
-                name="pmcp_estop_on",
+                name="pcp_estop_on",
                 description="Activate emergency stop",
-                method="pmcp/estop",
+                method="pcp/estop",
                 params={"active": True},
                 expected={"estop": True},
-                category="pmcp",
+                category="pcp",
             ),
             TestCase(
-                name="pmcp_estop_off",
+                name="pcp_estop_off",
                 description="Deactivate emergency stop",
-                method="pmcp/estop",
+                method="pcp/estop",
                 params={"active": False},
                 expected={"estop": False},
-                category="pmcp",
+                category="pcp",
             ),
             TestCase(
                 name="shadow_preview_safe",
@@ -346,7 +346,7 @@ class PMCPComplianceRunner:
                 },
                 expected={},
                 validator=lambda r: "preview" in r,
-                category="pmcp",
+                category="pcp",
             ),
         ]
 
@@ -438,7 +438,7 @@ async def main():
         # Default to v05 arm server
         args.server_cmd = ["python", "-m", "v05.robot_servers.arm_server"]
 
-    runner = PMCPComplianceRunner(
+    runner = PCPComplianceRunner(
         transport=args.transport,
         server_cmd=args.server_cmd,
         server_url=args.server_url,

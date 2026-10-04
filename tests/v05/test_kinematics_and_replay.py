@@ -11,7 +11,7 @@ from __future__ import annotations
 import math
 import unittest
 
-from v05.pmcp_kinematics import (
+from v05.pcp_kinematics import (
     DHLink,
     KinematicChain,
     PoseCheck,
@@ -19,7 +19,7 @@ from v05.pmcp_kinematics import (
     check_target,
     ur5e,
 )
-from v05.pmcp_replay import (
+from v05.pcp_replay import (
     ReplayResult,
     TrajectoryStep,
     load_trajectory,
@@ -127,7 +127,7 @@ class TestPoseCheck(unittest.TestCase):
 
 class TestShadowSimulatorKinematic(unittest.TestCase):
     def test_kinematic_engine_reported(self):
-        from v05.pmcp_safety_v5 import ShadowSimulator
+        from v05.pcp_safety_v5 import ShadowSimulator
         sim = ShadowSimulator(kinematic_chain=ur5e())
         self.assertEqual(sim._engine, "kinematic")
         preview = sim.preview("move_to", {"x": 0.4, "y": 0.1, "z": 0.3, "speed": 0.1})
@@ -135,7 +135,7 @@ class TestShadowSimulatorKinematic(unittest.TestCase):
         self.assertTrue(preview.safe)
 
     def test_kinematic_blocks_target_far_outside_reach(self):
-        from v05.pmcp_safety_v5 import ShadowSimulator
+        from v05.pcp_safety_v5 import ShadowSimulator
         sim = ShadowSimulator(kinematic_chain=ur5e())
         # 3.0m from base is well beyond the UR5e ~0.85m reach,
         # but the geometric bounding box is [-2, 2]^3 so we use
@@ -182,7 +182,7 @@ class TestReplayBlocksUnsafe(unittest.TestCase):
         self.assertFalse(r.safe)
 
     def test_estop_blocks_all_subsequent(self):
-        from v05.pmcp_safety_v5 import SafetyConstitution, SafetyMiddleware, ShadowSimulator
+        from v05.pcp_safety_v5 import SafetyConstitution, SafetyMiddleware, ShadowSimulator
         mw = SafetyMiddleware(SafetyConstitution("r"), ShadowSimulator(kinematic_chain=ur5e()))
         mw.set_estop(True)
         steps = [

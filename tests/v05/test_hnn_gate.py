@@ -15,7 +15,7 @@ from __future__ import annotations
 import unittest
 from typing import Any, Dict
 
-from v05.pmcp_safety_v5 import (
+from v05.pcp_safety_v5 import (
     HNNConservationRule,
     SafetyConstitution,
     SafetyMiddleware,
@@ -30,7 +30,7 @@ from v05.pmcp_safety_v5 import (
 # ─────────────────────────────────────────────────────────────────────────────
 
 class _FakeHNN:
-    """Minimal stand-in for pmcp.physics.hamiltonian.HamiltonianNN.
+    """Minimal stand-in for pcp.physics.hamiltonian.HamiltonianNN.
 
     Exposes .hamiltonian(q, p) -> float. The rule under test only calls
     this single method, so a duck-typed stub is sufficient.
@@ -46,7 +46,7 @@ class _FakeHNN:
 
 
 class _FakeChecker:
-    """Stand-in for pmcp.physics.hamiltonian.ConservationChecker."""
+    """Stand-in for pcp.physics.hamiltonian.ConservationChecker."""
 
     DEFAULT_DRIFT_THRESHOLD = 0.05
 

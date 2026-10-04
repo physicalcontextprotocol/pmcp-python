@@ -18,14 +18,14 @@ import sys
 import os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from v05.pmcp_v5_types import (
-    PMCP_VERSION, MCP_VERSION,
+from v05.pcp_v5_types import (
+    PCP_VERSION, MCP_VERSION,
     ActuationSpec, ActuationParameter, ActuationResult,
     SensorSpec, SensorType, SensorReading,
     LeaseGrant, LeaseRequest, LeaseState,
     ShadowPreview, ShadowStatus,
     RobotIdentity, SafetyEnvelope,
-    PMCPError, PMCPErrorCode,
+    PCPError, PCPErrorCode,
     ServerInfo, Capabilities,
 )
 
@@ -35,7 +35,7 @@ class TestTypes(unittest.TestCase):
     
     def test_version_constants(self):
         """Test version constants are defined."""
-        self.assertEqual(PMCP_VERSION, "0.5")
+        self.assertEqual(PCP_VERSION, "0.5")
         self.assertEqual(MCP_VERSION, "2024-11-05")
     
     def test_actuation_parameter(self):
@@ -151,7 +151,7 @@ class TestTypes(unittest.TestCase):
     def test_robot_identity(self):
         """Test RobotIdentity creation."""
         identity = RobotIdentity.new("arm", "UR5", "12345", "lab-01")
-        self.assertTrue(identity.did.startswith("did:pmcp:"))
+        self.assertTrue(identity.did.startswith("did:pcp:"))
         self.assertEqual(identity.robot_class, "arm")
         self.assertEqual(identity.model, "UR5")
         
@@ -191,10 +191,10 @@ class TestTypes(unittest.TestCase):
         self.assertIn("experimental", caps_dict)
     
     def test_error_codes(self):
-        """Test PMCPErrorCode values."""
-        self.assertEqual(PMCPErrorCode.SHADOW_BLOCKED.value, -33001)
-        self.assertEqual(PMCPErrorCode.CONSTITUTION_BLOCKED.value, -33002)
-        self.assertEqual(PMCPErrorCode.LEASE_REQUIRED.value, -33003)
+        """Test PCPErrorCode values."""
+        self.assertEqual(PCPErrorCode.SHADOW_BLOCKED.value, -33001)
+        self.assertEqual(PCPErrorCode.CONSTITUTION_BLOCKED.value, -33002)
+        self.assertEqual(PCPErrorCode.LEASE_REQUIRED.value, -33003)
 
 
 class TestServerBasics(unittest.TestCase):
@@ -202,14 +202,14 @@ class TestServerBasics(unittest.TestCase):
     
     def test_server_imports(self):
         """Test server can be imported."""
-        from v05.pmcp_v5_server import PMCPServer
-        self.assertIsNotNone(PMCPServer)
+        from v05.pcp_v5_server import PCPServer
+        self.assertIsNotNone(PCPServer)
     
     def test_server_creation(self):
         """Test server creation."""
-        from v05.pmcp_v5_server import PMCPServer
+        from v05.pcp_v5_server import PCPServer
         
-        server = PMCPServer(
+        server = PCPServer(
             name="test-robot",
             version="1.0.0",
             robot_id="robot-1",
@@ -224,10 +224,10 @@ class TestServerBasics(unittest.TestCase):
     
     def test_actuation_decorator(self):
         """Test actuation registration."""
-        from v05.pmcp_v5_server import PMCPServer
-        from v05.pmcp_v5_types import ActuationResult
+        from v05.pcp_v5_server import PCPServer
+        from v05.pcp_v5_types import ActuationResult
         
-        server = PMCPServer(name="test")
+        server = PCPServer(name="test")
         
         @server.actuation("test_move", description="Test move")
         async def test_move(x: float, y: float):
@@ -237,10 +237,10 @@ class TestServerBasics(unittest.TestCase):
     
     def test_sensor_decorator(self):
         """Test sensor registration."""
-        from v05.pmcp_v5_server import PMCPServer
-        from v05.pmcp_v5_types import SensorReading
+        from v05.pcp_v5_server import PCPServer
+        from v05.pcp_v5_types import SensorReading
         
-        server = PMCPServer(name="test")
+        server = PCPServer(name="test")
         
         @server.sensor("test_sensor", description="Test sensor", 
                        sensor_type=SensorType.TEMPERATURE, unit="C")
@@ -260,14 +260,14 @@ class TestSafety(unittest.TestCase):
     
     def test_safety_imports(self):
         """Test safety module can be imported."""
-        from v05.pmcp_safety_v5 import SafetyConstitution, SafetyMiddleware, ShadowSimulator
+        from v05.pcp_safety_v5 import SafetyConstitution, SafetyMiddleware, ShadowSimulator
         self.assertIsNotNone(SafetyConstitution)
         self.assertIsNotNone(SafetyMiddleware)
         self.assertIsNotNone(ShadowSimulator)
     
     def test_constitution_creation(self):
         """Test SafetyConstitution creation."""
-        from v05.pmcp_safety_v5 import SafetyConstitution
+        from v05.pcp_safety_v5 import SafetyConstitution
 
         constitution = SafetyConstitution("test-robot")
         self.assertEqual(constitution.robot_id, "test-robot")
@@ -276,7 +276,7 @@ class TestSafety(unittest.TestCase):
 
     def test_constitution_validate(self):
         """Test constitution validation via evaluate()."""
-        from v05.pmcp_safety_v5 import SafetyConstitution
+        from v05.pcp_safety_v5 import SafetyConstitution
 
         constitution = SafetyConstitution("test")
         # evaluate() takes a tool call dict and returns (passed, violations)
@@ -293,7 +293,7 @@ class TestSafety(unittest.TestCase):
     
     def test_shadow_simulator(self):
         """Test shadow simulation."""
-        from v05.pmcp_safety_v5 import ShadowSimulator
+        from v05.pcp_safety_v5 import ShadowSimulator
         
         sim = ShadowSimulator()
         
@@ -313,9 +313,9 @@ class TestMessageHandling(unittest.IsolatedAsyncioTestCase):
     
     async def test_initialize_request(self):
         """Test initialize request handling."""
-        from v05.pmcp_v5_server import PMCPServer
+        from v05.pcp_v5_server import PCPServer
         
-        server = PMCPServer(name="test")
+        server = PCPServer(name="test")
         
         request = {
             "jsonrpc": "2.0",
@@ -336,13 +336,13 @@ class TestMessageHandling(unittest.IsolatedAsyncioTestCase):
         result = response["result"]
         self.assertIn("protocolVersion", result)
         self.assertIn("serverInfo", result)
-        self.assertIn("pmcp", result)
+        self.assertIn("pcp", result)
     
     async def test_ping_request(self):
         """Test ping request handling."""
-        from v05.pmcp_v5_server import PMCPServer
+        from v05.pcp_v5_server import PCPServer
         
-        server = PMCPServer(name="test")
+        server = PCPServer(name="test")
         
         request = {
             "jsonrpc": "2.0",
@@ -359,10 +359,10 @@ class TestMessageHandling(unittest.IsolatedAsyncioTestCase):
     
     async def test_tools_list_request(self):
         """Test tools/list request handling."""
-        from v05.pmcp_v5_server import PMCPServer
-        from v05.pmcp_v5_types import ActuationResult
+        from v05.pcp_v5_server import PCPServer
+        from v05.pcp_v5_types import ActuationResult
         
-        server = PMCPServer(name="test")
+        server = PCPServer(name="test")
         
         @server.actuation("test_move", description="Test move")
         async def test_move(x: float):
@@ -384,10 +384,10 @@ class TestMessageHandling(unittest.IsolatedAsyncioTestCase):
     
     async def test_resources_list_request(self):
         """Test resources/list request handling."""
-        from v05.pmcp_v5_server import PMCPServer
-        from v05.pmcp_v5_types import SensorReading
+        from v05.pcp_v5_server import PCPServer
+        from v05.pcp_v5_types import SensorReading
         
-        server = PMCPServer(name="test")
+        server = PCPServer(name="test")
         
         @server.sensor("joint_angles", description="Joint angles", 
                        sensor_type=SensorType.JOINT_STATES, unit="rad")
@@ -414,9 +414,9 @@ class TestMessageHandling(unittest.IsolatedAsyncioTestCase):
     
     async def test_method_not_found(self):
         """Test unknown method handling."""
-        from v05.pmcp_v5_server import PMCPServer
+        from v05.pcp_v5_server import PCPServer
         
-        server = PMCPServer(name="test")
+        server = PCPServer(name="test")
         
         request = {
             "jsonrpc": "2.0",
@@ -432,15 +432,15 @@ class TestMessageHandling(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(response["error"]["code"], -32601)
     
     async def test_status_request(self):
-        """Test pmcp/status request handling."""
-        from v05.pmcp_v5_server import PMCPServer
+        """Test pcp/status request handling."""
+        from v05.pcp_v5_server import PCPServer
         
-        server = PMCPServer(name="test")
+        server = PCPServer(name="test")
         
         request = {
             "jsonrpc": "2.0",
             "id": "6",
-            "method": "pmcp/status",
+            "method": "pcp/status",
             "params": {}
         }
         
@@ -449,7 +449,7 @@ class TestMessageHandling(unittest.IsolatedAsyncioTestCase):
         self.assertIsNotNone(response)
         result = response["result"]
         self.assertIn("robot_id", result)
-        self.assertIn("pmcp_version", result)
+        self.assertIn("pcp_version", result)
         self.assertIn("uptime_s", result)
 
 
@@ -458,9 +458,9 @@ class TestLeaseSystem(unittest.IsolatedAsyncioTestCase):
     
     async def test_lease_request(self):
         """Test lease request handling."""
-        from v05.pmcp_v5_server import PMCPServer
+        from v05.pcp_v5_server import PCPServer
         
-        server = PMCPServer(name="test")
+        server = PCPServer(name="test")
         
         request = {
             "jsonrpc": "2.0",
@@ -483,9 +483,9 @@ class TestLeaseSystem(unittest.IsolatedAsyncioTestCase):
     
     async def test_lease_release(self):
         """Test lease release handling."""
-        from v05.pmcp_v5_server import PMCPServer
+        from v05.pcp_v5_server import PCPServer
         
-        server = PMCPServer(name="test")
+        server = PCPServer(name="test")
         
         # First get a lease
         await server.handle_message({
@@ -519,10 +519,10 @@ class TestIntegration(unittest.IsolatedAsyncioTestCase):
     
     async def test_full_workflow(self):
         """Test complete workflow."""
-        from v05.pmcp_v5_server import PMCPServer
-        from v05.pmcp_v5_types import ActuationResult
+        from v05.pcp_v5_server import PCPServer
+        from v05.pcp_v5_types import ActuationResult
         
-        server = PMCPServer(name="test")
+        server = PCPServer(name="test")
         
         # Register actuation
         @server.actuation("move_to", description="Move to position", max_speed_m_s=1.0)
@@ -563,7 +563,7 @@ class TestIntegration(unittest.IsolatedAsyncioTestCase):
         status_response = await server.handle_message({
             "jsonrpc": "2.0",
             "id": "4",
-            "method": "pmcp/status",
+            "method": "pcp/status",
             "params": {}
         })
         
@@ -576,9 +576,9 @@ class TestEdgeCases(unittest.IsolatedAsyncioTestCase):
     
     async def test_missing_params(self):
         """Test handling of missing parameters."""
-        from v05.pmcp_v5_server import PMCPServer
+        from v05.pcp_v5_server import PCPServer
         
-        server = PMCPServer(name="test")
+        server = PCPServer(name="test")
         
         request = {
             "jsonrpc": "2.0",
@@ -596,9 +596,9 @@ class TestEdgeCases(unittest.IsolatedAsyncioTestCase):
     
     async def test_json_parse_error(self):
         """Test handling of invalid JSON."""
-        from v05.pmcp_v5_server import PMCPServer
+        from v05.pcp_v5_server import PCPServer
         
-        server = PMCPServer(name="test")
+        server = PCPServer(name="test")
         
         # Invalid JSON
         try:
@@ -608,10 +608,10 @@ class TestEdgeCases(unittest.IsolatedAsyncioTestCase):
     
     async def test_empty_arguments(self):
         """Test handling of empty arguments."""
-        from v05.pmcp_v5_server import PMCPServer
-        from v05.pmcp_v5_types import ActuationResult
+        from v05.pcp_v5_server import PCPServer
+        from v05.pcp_v5_types import ActuationResult
         
-        server = PMCPServer(name="test")
+        server = PCPServer(name="test")
         
         @server.actuation("no_args", description="No args action")
         async def no_args():
@@ -638,18 +638,18 @@ class TestPerformance(unittest.IsolatedAsyncioTestCase):
         start = time.time()
         
         for i in range(100):
-            from v05.pmcp_v5_server import PMCPServer
-            server = PMCPServer(name=f"test-{i}")
+            from v05.pcp_v5_server import PCPServer
+            server = PCPServer(name=f"test-{i}")
         
         elapsed = time.time() - start
         self.assertLess(elapsed, 1.0)  # Should create 100 servers in under 1 second
     
     async def test_message_handling_performance(self):
         """Test message handling performance."""
-        from v05.pmcp_v5_server import PMCPServer
-        from v05.pmcp_v5_types import ActuationResult
+        from v05.pcp_v5_server import PCPServer
+        from v05.pcp_v5_types import ActuationResult
         
-        server = PMCPServer(name="test")
+        server = PCPServer(name="test")
         
         @server.actuation("test", description="Test")
         async def test_actuation(x: float):

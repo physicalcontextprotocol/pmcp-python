@@ -11,27 +11,27 @@ Architecture:
   - Robot actuations exposed as standard MCP Tools
   - Sensor streams exposed as standard MCP Resources
   - Mission templates exposed as standard MCP Prompts
-  - Physical-only extensions: shadow/*, lease/*, pmcp/estop
+  - Physical-only extensions: shadow/*, lease/*, pcp/estop
 """
 
 from importlib.metadata import PackageNotFoundError
 from importlib.metadata import version as _dist_version
 
 try:
-    __version__ = _dist_version("pmcp")
+    __version__ = _dist_version("pcp")
 except PackageNotFoundError:  # running from a source tree, not installed
     __version__ = "0.0.0+unknown"
 
-from v05.pmcp_registry import PMCPRegistry, RegistryEntry
-from v05.pmcp_safety_v5 import (
+from v05.pcp_registry import PCPRegistry, RegistryEntry
+from v05.pcp_safety_v5 import (
     SafetyConstitution,
     SafetyMiddleware,
     ShadowSimulator,
 )
-from v05.pmcp_v5_client import PMCPClient
-from v05.pmcp_v5_server import PMCPServer
-from v05.pmcp_v5_types import (
-    PMCP_VERSION,
+from v05.pcp_v5_client import PCPClient
+from v05.pcp_v5_server import PCPServer
+from v05.pcp_v5_types import (
+    PCP_VERSION,
     ActuationResult,
     ActuationSpec,
     LeaseGrant,
@@ -43,12 +43,12 @@ from v05.pmcp_v5_types import (
 )
 
 __all__ = [
-    "PMCPServer",
-    "PMCPClient",
+    "PCPServer",
+    "PCPClient",
     "SafetyConstitution",
     "SafetyMiddleware",
     "ShadowSimulator",
-    "PMCPRegistry",
+    "PCPRegistry",
     "RegistryEntry",
     "ActuationSpec",
     "SensorSpec",
@@ -58,5 +58,5 @@ __all__ = [
     "SafetyEnvelope",
     "LeaseGrant",
     "ShadowPreview",
-    "PMCP_VERSION",
+    "PCP_VERSION",
 ]
