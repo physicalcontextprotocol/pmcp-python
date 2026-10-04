@@ -43,11 +43,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 - **Distribution renamed to `physicalcontextprotocol`.** The PyPI name was
-  previously `pmcp`, which is **already taken on PyPI** by an unrelated
-  project ("PMCP - Progressive MCP", github.com/Consiliency/pmcp) — so that
+  previously `pcp`, which is **already taken on PyPI** by an unrelated
+  project ("PCP - Progressive MCP", github.com/Consiliency/pcp) — so that
   name was never publishable. Use `pip install physicalcontextprotocol`.
-- Import namespaces are unchanged (`pmcp`, `sdk`, `v05`), so
-  `from pmcp import PMCPClient` keeps working. The parallel-implementation
+- Import namespaces are unchanged (`pcp`, `sdk`, `v05`), so
+  `from pcp import PCPClient` keeps working. The parallel-implementation
   consolidation is tracked in `pmcp-spec/MIGRATION_MAP.md` and is not
   addressed by this rename.
 
@@ -74,7 +74,7 @@ First tagged public release.
 - **Fencing tokens** (Kleppmann 2016) are implemented with per-zone
   monotonic counters and staleness rejection.
 - **E-Stop is a real actuation-blocking latch**, not an advisory flag —
-  `pmcp/estop` bypasses the gate sequence at the message-handling layer,
+  `pcp/estop` bypasses the gate sequence at the message-handling layer,
   and this is covered by the conformance suite rather than only
   described in the spec.
 
@@ -93,7 +93,7 @@ suite rather than reading it:
   points removed (their targets moved out of this package during the
   split, and they were coroutines regardless); the
   `packages.find.include` list cut from 19 patterns to the three that
-  actually ship (`v05*`, `pmcp*`, `sdk*`); and `readme` corrected from
+  actually ship (`v05*`, `pcp*`, `sdk*`); and `readme` corrected from
   the non-existent `docs/README.md` to `README.md`.
 - `tests/__init__.py` added to the tests directory and each
   subdirectory so pytest imports the suite as a package.
@@ -112,11 +112,11 @@ suite rather than reading it:
 
 ### Known limitations (documented, not fixed)
 
-- **Duplicate implementations remain.** `pmcp/`, `sdk/`, and `v05/`
-  each ship a `PMCPServer` / `PMCPClient` / `ShadowPreview`, and there
+- **Duplicate implementations remain.** `pcp/`, `sdk/`, and `v05/`
+  each ship a `PCPServer` / `PCPClient` / `ShadowPreview`, and there
   are at least four distinct client implementations. This is the
   highest-value open contribution in this repository.
-- PyPI publishing is configured but not yet enabled; `pip install pmcp`
+- PyPI publishing is configured but not yet enabled; `pip install pcp`
   does not resolve to this project yet.
 
 ## [Unreleased]
@@ -124,8 +124,8 @@ suite rather than reading it:
 ### Added
 - Optional Gate 4 — `HNNConservationRule` checks Hamiltonian energy conservation
   via a trained neural network (`H(q, p) → ℜ`). Off by default; activate with
-  `pip install pmcp[hnn]` and pass `hnn_rule=` to `SafetyMiddleware`.
-- New extra: `pip install pmcp[hnn]` (torch + numpy).
+  `pip install pcp[hnn]` and pass `hnn_rule=` to `SafetyMiddleware`.
+- New extra: `pip install pcp[hnn]` (torch + numpy).
 - 12 new tests for Gate 4: off-by-default, opt-in, consistent motion passes,
   conservation violation surfaces warning, stats tracking.
 - `tests/__init__.py` (and one per subdirectory) so pytest imports the
@@ -136,15 +136,15 @@ suite rather than reading it:
   shadow or constitution) — HNN WARNING-severity messages appear in the
   violations list without blocking the call.
 - `[tool.setuptools.packages.find]` reduced from 19 include patterns to
-  three (`v05*`, `pmcp*`, `sdk*`), matching what actually lives in this
+  three (`v05*`, `pcp*`, `sdk*`), matching what actually lives in this
   package.
 
 ### Removed
-- Six broken `[project.scripts]` entry points (`pmcp-hub`,
-  `pmcp-marketplace`, `pmcp-depin`, `pmcp-multisig`, `pmcp-swarm-coo`,
-  `pmcp-compliance`) whose target modules moved out of this package
+- Six broken `[project.scripts]` entry points (`pcp-hub`,
+  `pcp-marketplace`, `pcp-depin`, `pcp-multisig`, `pcp-swarm-coo`,
+  `pcp-compliance`) whose target modules moved out of this package
   during the pmcp-org split and whose target functions were coroutines
-  in any case. Only `pmcp-server`, `pmcp-demo`, `pmcp-registry`
+  in any case. Only `pcp-server`, `pcp-demo`, `pmcp-registry`
   remain — the three that back the shipping `v05/` code.
 
 ### Fixed
@@ -159,10 +159,10 @@ scope cut: many experimental features from earlier versions were removed so
 the protocol surface is small, testable, and honest about what it ships.
 
 ### Added
-- `PMCPServer` — JSON-RPC 2.0 server over stdio and HTTP, exposing robot
+- `PCPServer` — JSON-RPC 2.0 server over stdio and HTTP, exposing robot
   actuations as MCP tools, sensors as MCP resources, and mission templates
   as MCP prompts.
-- `PMCPClient` — client with `connect_stdio`, `connect_http`, and
+- `PCPClient` — client with `connect_stdio`, `connect_http`, and
   `connect_server` (in-process) transports.
 - `SafetyConstitution` with 6 default rules: speed limit, floor guard,
   workspace box, energy budget, human proximity, E-Stop, plus an optional
@@ -170,15 +170,15 @@ the protocol surface is small, testable, and honest about what it ships.
 - `ShadowSimulator` — three-engine ladder: PyBullet → 6-DOF forward-kinematic
   reachability → geometric bounding-box. Each preview reports which engine
   actually ran.
-- `pmcp_kinematics` — DH-parameter forward kinematics for 6-DOF arms, with a
+- `pcp_kinematics` — DH-parameter forward kinematics for 6-DOF arms, with a
   UR5e preset, joint-limit checking, and reachability tests.
-- `pmcp_replay` — recorded-trajectory replay harness. JSONL in, pipeline out,
+- `pcp_replay` — recorded-trajectory replay harness. JSONL in, pipeline out,
   with a canonical pick-and-place reference trajectory and an unsafe
   trajectory that the pipeline correctly blocks.
-- `PMCPRegistry` — in-process + HTTP-backed fleet registry, MCP registry
+- `PCPRegistry` — in-process + HTTP-backed fleet registry, MCP registry
   format compatible.
 - `RobotIdentity` — W3C DID + Ed25519 (via `cryptography`).
-- Three console-script entry points: `pmcp-server`, `pmcp-demo`,
+- Three console-script entry points: `pcp-server`, `pcp-demo`,
   `pmcp-registry`.
 - Three reference robot servers (arm, mobile, agricultural) as illustrative
   clients of the decorator API.
@@ -197,22 +197,22 @@ the protocol surface is small, testable, and honest about what it ships.
   `cryptography`. The shadow sim works without numpy using a pure-Python
   math path; numpy/pybullet are now optional extras.
 - **README** rewritten to be honest about scope: drops the "USB-C for Mars"
-  framing and the long "Planned" list, focuses on what `pip install pmcp`
+  framing and the long "Planned" list, focuses on what `pip install pcp`
   actually delivers.
 
 ### Fixed
 - `pyproject.toml` build backend was `setuptools.backends.legacy:build`, a
-  non-existent module that made `pip install pmcp` fail silently. Now
+  non-existent module that made `pip install pcp` fail silently. Now
   `setuptools.build_meta`.
-- Module self-imports in `v05/` (e.g. `from v05.pmcp_v5_types import …`)
+- Module self-imports in `v05/` (e.g. `from v05.pcp_v5_types import …`)
   were unreachable without a working install. Now reachable.
 - `CommandValidator` (test-only utility) was missing error messages for
   unknown command types and had over-verbose messages for missing fields.
 - `FleetManager` (test-only utility) was not setting `status = "pending"`
   on `assign_task`, so `get_fleet_stats()["pending_tasks"]` was always 0.
-- Three CLI console scripts (`pmcp-server`, `pmcp-demo`, `pmcp-registry`)
+- Three CLI console scripts (`pcp-server`, `pcp-demo`, `pmcp-registry`)
   referenced `main` / `main_cli` entry points that did not exist. Added.
-- `v05/__init__.py` was missing `ShadowSimulator`, `PMCPRegistry`, and
+- `v05/__init__.py` was missing `ShadowSimulator`, `PCPRegistry`, and
   `RegistryEntry` from the public surface. Added.
 
 ### Known limitations

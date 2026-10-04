@@ -24,7 +24,7 @@ from dataclasses import dataclass, field
 from typing import Any, Dict, List, Optional, Callable
 
 logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger("pmcp-integration")
+logger = logging.getLogger("pcp-integration")
 
 
 class TestResult:

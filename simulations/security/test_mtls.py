@@ -36,7 +36,7 @@ logging.basicConfig(
     level=logging.INFO,
     format='[%(asctime)s] %(levelname)s [%(name)s] %(message)s'
 )
-logger = logging.getLogger("pmcp-security")
+logger = logging.getLogger("pcp-security")
 
 
 def generate_random_string(length: int) -> str:

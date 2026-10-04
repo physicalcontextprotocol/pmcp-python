@@ -13,10 +13,10 @@ This file covers what is specific to this repository.
 python -m pip install -e ".[dev,numerics]"
 
 pytest -q                        # the full suite
-ruff check v05/ pmcp/
-black --check v05/ pmcp/
-mypy v05/ pmcp/ --ignore-missing-imports --no-error-summary
-bandit -r v05/ pmcp/ -ll
+ruff check v05/ pcp/
+black --check v05/ pcp/
+mypy v05/ pcp/ --ignore-missing-imports --no-error-summary
+bandit -r v05/ pcp/ -ll
 pip-audit
 ```
 
@@ -38,17 +38,17 @@ in the same PR.
 
 ## The duplicate-implementation problem
 
-This repository ships three overlapping implementations — `pmcp/`,
-`sdk/`, and `v05/` — each with its own `PMCPServer`, `PMCPClient`, and
+This repository ships three overlapping implementations — `pcp/`,
+`sdk/`, and `v05/` — each with its own `PCPServer`, `PCPClient`, and
 `ShadowPreview`. There are at least **four** distinct client
 implementations:
 
-1. `pmcp/client.py`
-2. `pmcp/client_v2.py`
+1. `pcp/client.py`
+2. `pcp/client_v2.py`
 3. `sdk/client.py`
-4. `v05/pmcp_v5_client.py`
+4. `v05/pcp_v5_client.py`
 
-(`pmcp/fleet/client.py` may be legitimately distinct as a
+(`pcp/fleet/client.py` may be legitimately distinct as a
 fleet-coordination client rather than a duplicate.)
 
 Picking one canonical implementation and deprecating the rest is

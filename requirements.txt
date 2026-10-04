@@ -3,18 +3,18 @@
 #
 # Quick start (no hardware):
 #   pip install cryptography websockets
-#   python -m v04.main_pmcp_v4
+#   python -m v04.main_pcp_v4
 #
 # Full install:
 #   pip install -r requirements.txt  (installs core + all optionals)
 #
 # Or use pyproject.toml extras:
-#   pip install pmcp[full]        — everything
-#   pip install pmcp[transport]   — Zenoh + MQTT only
-#   pip install pmcp[industrial]  — OPC UA, Siemens S7, Modbus
-#   pip install pmcp[vision]      — YOLO + OpenCV
-#   pip install pmcp[drivers]     — Serial + UR5 RTDE
-#   pip install pmcp[dev]         — pytest, black, ruff
+#   pip install pcp[full]        — everything
+#   pip install pcp[transport]   — Zenoh + MQTT only
+#   pip install pcp[industrial]  — OPC UA, Siemens S7, Modbus
+#   pip install pcp[vision]      — YOLO + OpenCV
+#   pip install pcp[drivers]     — Serial + UR5 RTDE
+#   pip install pcp[dev]         — pytest, black, ruff
 # ──────────────────────────────────────────────────────────────────────────────
 
 # ── Core (always required) ────────────────────────────────────────────────────

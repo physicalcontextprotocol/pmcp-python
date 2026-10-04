@@ -2,7 +2,7 @@
 
 These files are **not tests**. They are self-contained harnesses that were
 previously under `tests/`, where pytest collected them and reported them as
-passing. None of them import `pmcp`, `v05`, or `sdk`, so they never exercised
+passing. None of them import `pcp`, `v05`, or `sdk`, so they never exercised
 any product code — they asserted against simulators defined in the same file
 and could not fail because of a defect in `physicalcontextprotocol`.
 
@@ -38,7 +38,7 @@ instantiated directly. Converting them would mean moving their state setup into
 
 Rewrite each file against the actual SDK surface. For mTLS, that means asserting
 on `physicalcontextprotocol`'s real identity and transport types — the DID and
-capability-token types in `pmcp`, and `TcpClientTransport` / `ConnectionPool` in
+capability-token types in `pcp`, and `TcpClientTransport` / `ConnectionPool` in
 the Rust core — rather than a simulated CA defined in the test file.
 
 ## Running them directly

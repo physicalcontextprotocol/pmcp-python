@@ -1,7 +1,7 @@
 name: pmcp-python CI
 
 # This file replaces an earlier org-level ci.yml that:
-#   1. Referenced monorepo-era paths (v05/, pmcp/ at a shared org root) that
+#   1. Referenced monorepo-era paths (v05/, pcp/ at a shared org root) that
 #      no longer match this repo's layout after the split into separate
 #      pmcp-spec / pmcp-python / pmcp-rust / pmcp-typescript / ... repos.
 #      It also referenced docker/Dockerfile and typescript-sdk/, neither of
@@ -17,7 +17,7 @@ name: pmcp-python CI
 # Every path and job below has been verified against this repo's actual
 # contents and a real local run (`pytest -q` -> 159 passed, 1 skipped,
 # 0 failed; `pytest --collect-only` -> 160 tests across tests/ and
-# tests/v05). Every collected test imports pmcp/v05/sdk and asserts on real
+# tests/v05). Every collected test imports pcp/v05/sdk and asserts on real
 # behaviour. Self-contained harnesses that import none of those live in
 # simulations/ and are excluded by testpaths; see simulations/README.md.
 
@@ -63,15 +63,15 @@ jobs:
       - name: Smoke-import canonical + v05 packages
         run: |
           python -c "
-          import pmcp
-          print('pmcp:', pmcp.__version__, pmcp.__protocol__)
-          import v05.pmcp_v5_server, v05.pmcp_v5_types, v05.pmcp_safety_v5, v05.pmcp_registry
+          import pcp
+          print('pcp:', pcp.__version__, pcp.__protocol__)
+          import v05.pcp_v5_server, v05.pcp_v5_types, v05.pcp_safety_v5, v05.pcp_registry
           print('v05 imports OK')
           "
 
       - name: Run full test suite
         # --cov=v05 only. See [tool.coverage.run] in pyproject.toml:
-        # every one of the 34 modules under pmcp/ is imported by no test,
+        # every one of the 34 modules under pcp/ is imported by no test,
         # so including it reports 0% for a package that is simply not
         # under test yet, and drags the total from 80% to 27% -- failing
         # the gate on a number that says nothing about the code actually
@@ -124,7 +124,7 @@ jobs:
       - name: mypy errors must not exceed the recorded baseline
         run: |
           set +e
-          mypy v05/ pmcp/ \
+          mypy v05/ pcp/ \
             --ignore-missing-imports \
             --no-error-summary \
             --python-version 3.11 > /tmp/mypy.log 2>&1
@@ -162,10 +162,10 @@ jobs:
         run: pip install ruff black
 
       - name: Run ruff
-        run: ruff check v05/ pmcp/ --output-format=github
+        run: ruff check v05/ pcp/ --output-format=github
 
       - name: Check black formatting
-        run: black --check v05/ pmcp/
+        run: black --check v05/ pcp/
 
   # ===========================================================================
   # Security Scan
@@ -199,7 +199,7 @@ jobs:
 
       - name: Run bandit (SAST)
         run: |
-          bandit -r v05/ pmcp/ \
+          bandit -r v05/ pcp/ \
             -f json -o bandit-report.json \
             -ll --quiet
 
@@ -239,7 +239,7 @@ jobs:
 
       - name: Smoke-test v05 demo (arm)
         run: |
-          timeout 12 python -m v05.main_pmcp_v5 --demo arm 2>&1 | head -40
+          timeout 12 python -m v05.main_pcp_v5 --demo arm 2>&1 | head -40
           echo "v05 arm demo smoke-test passed"
 
   # ===========================================================================
@@ -265,12 +265,12 @@ jobs:
         run: |
           python -c "
           import time
-          import v05.pmcp_v5_server as srv
-          import v05.pmcp_v5_types  as typ
+          import v05.pcp_v5_server as srv
+          import v05.pcp_v5_types  as typ
 
           start = time.perf_counter()
           for i in range(200):
-              s    = srv.PMCPServer(f'robot-{i}')
+              s    = srv.PCPServer(f'robot-{i}')
               iden = typ.RobotIdentity.new('arm', 'UR5', '12345', 'lab')
           elapsed = time.perf_counter() - start
           ms_each = elapsed / 200 * 1000

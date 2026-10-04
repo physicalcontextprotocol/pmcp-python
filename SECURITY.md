@@ -20,7 +20,7 @@ Do not open a public issue.
   **E-Stop → Lease → Constitution → Shadow**.
 - A gap in the formal models (`formal/`) that a careful reader would
   reasonably read as covering a case it does not cover.
-- A mismatch between `schema/v0.6.0/pmcp.schema.json` and
+- A mismatch between `schema/v0.6.0/pcp.schema.json` and
   `docs/PROTOCOL_SPEC.md` that would let two conforming
   implementations disagree on a safety-relevant field.
 - A leaked secret or credential anywhere in this repository.
