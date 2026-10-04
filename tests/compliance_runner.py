@@ -7,8 +7,8 @@ Conformance test suite for P-MCP servers.
 Tests all MCP tool calls, resources, prompts, and P-MCP extensions.
 
 Usage:
-    python -m tests.test_compliance --server-url http://localhost:8080
-    python -m tests.test_compliance --stdio python v05/robot_servers/arm_server.py
+    python -m tests.compliance_runner --server-url http://localhost:8080
+    python -m tests.compliance_runner --stdio python v05/robot_servers/arm_server.py
 """
 
 import argparse
