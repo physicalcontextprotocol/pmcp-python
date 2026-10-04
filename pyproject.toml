@@ -19,7 +19,7 @@ readme = "README.md"
 license = "Apache-2.0"
 license-files = ["LICENSE"]
 authors = [
-    {name = "P-MCP Contributors", email = "pmcp@example.com"},
+    {name = "Sandeep THummala", email = "physicalcontextprotocol@gmail.com"},
 ]
 keywords = [
     "robotics", "llm", "mcp", "model-context-protocol", "safety", "industrial",
