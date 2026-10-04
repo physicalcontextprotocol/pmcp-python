@@ -1,7 +1,7 @@
 """
 Phase 3 — Fleet Coordination Tools
 ====================================
-P-MCP actuations for system Hamiltonian + fleet-wide planning.
+PCP actuations for system Hamiltonian + fleet-wide planning.
 H_sys = Σ H_i + Σ V_ij — coordinates all robots as one physical system.
 """
 

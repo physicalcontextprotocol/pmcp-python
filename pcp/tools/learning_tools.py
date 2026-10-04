@@ -1,7 +1,7 @@
 """
 Phase 4 — Learning Tools
 =========================
-P-MCP actuations for online HNN training, anomaly detection, skill library.
+PCP actuations for online HNN training, anomaly detection, skill library.
 """
 
 from __future__ import annotations

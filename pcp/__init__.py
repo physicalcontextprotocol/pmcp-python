@@ -1,5 +1,5 @@
 """
-P-MCP v0.5 — Physical Context Protocol with Hamiltonian Physics
+PCP v0.5 — Physical Context Protocol with Hamiltonian Physics
 ======================================================================
 The Python SDK with energy-conserving neural physics (Phase 1-5).
 
@@ -52,7 +52,7 @@ except PackageNotFoundError:  # running from a source tree, not installed
 # different things on purpose -- see pmcp-spec/docs/PROTOCOL_SPEC.md 3.2,
 # and tests/v05/test_v05_sdk.py asserts the 0.5 prefix. Do not "fix" this
 # to match __version__.
-__protocol__ = "P-MCP/0.5"
+__protocol__ = "PCP/0.5"
 __spec_version__ = "2026-05-16"
 
 from pcp.client import PCPClient

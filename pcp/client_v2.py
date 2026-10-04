@@ -1,7 +1,7 @@
 """
-P-MCP Python SDK — pcp-client package
+PCP Python SDK — pcp-client package
 =======================================
-High-level async client for connecting to P-MCP robot servers.
+High-level async client for connecting to PCP robot servers.
 
 .. deprecated::
     This module is superseded by :mod:`pcp.client` (``PCPClient``),
@@ -86,7 +86,7 @@ class ClientConfig:
 
 class PCPClient:
     """
-    JSON-RPC 2.0 client for P-MCP robot servers.
+    JSON-RPC 2.0 client for PCP robot servers.
 
     Example::
 
@@ -424,7 +424,7 @@ class PCPClient:
 
 class StdioClient:
     """
-    Connect to a P-MCP server via stdio (subprocess).
+    Connect to a PCP server via stdio (subprocess).
 
     Example::
 

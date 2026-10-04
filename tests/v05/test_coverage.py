@@ -1,5 +1,5 @@
 """
-P-MCP v0.5 — Coverage tests for the demo runner, registry, server handlers,
+PCP v0.5 — Coverage tests for the demo runner, registry, server handlers,
 and client transport.
 """
 from __future__ import annotations

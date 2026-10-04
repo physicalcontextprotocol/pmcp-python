@@ -1,5 +1,5 @@
 """
-P-MCP Entry Point — All 5 Hamiltonian phases wired into one PCPServer.
+PCP Entry Point — All 5 Hamiltonian phases wired into one PCPServer.
 ======================================================================
 Run: python -m pcp.entry
      or: pcp-hamiltonian
@@ -64,11 +64,11 @@ def build_server() -> PCPServer:
 def print_capabilities(server: PCPServer):
     stats = server.stats()
     print("\n" + "=" * 60)
-    print("P-MCP Hamiltonian Physics Server")
+    print("PCP Hamiltonian Physics Server")
     print("=" * 60)
     print(f"  Name:       {server.name}")
     print(f"  Version:    {server.version}")
-    print("  Protocol:   P-MCP/0.5 (Hamiltonian)")
+    print("  Protocol:   PCP/0.5 (Hamiltonian)")
     print()
     print(f"  Actuations: {stats['actuations']}")
     print(f"  Sensors:    {stats['sensors']}")
@@ -91,7 +91,7 @@ async def run_http():
     host = os.environ.get("PCP_HOST", "127.0.0.1")
 
     log.info(f"Starting HTTP transport on http://{host}:{port}/")
-    log.info("P-MCP Hamiltonian server ready")
+    log.info("PCP Hamiltonian server ready")
 
     await server.run(transport="http", host=host, port=port)
 
@@ -101,7 +101,7 @@ async def run_stdio():
     print_capabilities(server)
 
     log.info("Starting stdio transport (MCP-compatible)")
-    log.info("P-MCP Hamiltonian server ready — listening on stdin/stdout")
+    log.info("PCP Hamiltonian server ready — listening on stdin/stdout")
 
     await server.run(transport="stdio")
 

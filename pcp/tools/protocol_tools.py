@@ -1,7 +1,7 @@
 """
 Phase 5 — Protocol Tools
 =========================
-P-MCP actuations for PhysOS protocol communication.
+PCP actuations for PhysOS protocol communication.
 Encode/decode robot state as PhysOS messages, handle protocol handshake.
 """
 

@@ -1,9 +1,9 @@
 """
-P-MCP v0.5 — MCP-Aligned Physical Robot Protocol
+PCP v0.5 — MCP-Aligned Physical Robot Protocol
 =================================================
-"Any MCP client can talk to any P-MCP robot."
+"Any MCP client can talk to any PCP robot."
 
-v0.5 aligns P-MCP wire format with Anthropic's Model Context Protocol,
+v0.5 aligns PCP wire format with Anthropic's Model Context Protocol,
 making robots first-class citizens of the agentic web.
 
 Architecture:

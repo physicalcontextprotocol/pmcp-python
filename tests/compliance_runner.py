@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """
-P-MCP Compliance Runner
+PCP Compliance Runner
 ========================
 
-Conformance test suite for P-MCP servers.
-Tests all MCP tool calls, resources, prompts, and P-MCP extensions.
+Conformance test suite for PCP servers.
+Tests all MCP tool calls, resources, prompts, and PCP extensions.
 
 Usage:
     python -m tests.compliance_runner --server-url http://localhost:8080
@@ -51,7 +51,7 @@ class TestRun:
 
 
 class PCPComplianceRunner:
-    """Compliance test runner for P-MCP servers."""
+    """Compliance test runner for PCP servers."""
 
     def __init__(self, transport: str = "stdio", server_cmd: Optional[List[str]] = None,
                  server_url: Optional[str] = None):
@@ -270,7 +270,7 @@ class PCPComplianceRunner:
                 validator=lambda r: "error" in r or "content" in r,
                 category="mcp",
             ),
-            # P-MCP Extension Methods
+            # PCP Extension Methods
             TestCase(
                 name="pcp_status",
                 description="Get server status",
@@ -391,7 +391,7 @@ class PCPComplianceRunner:
     def print_summary(self, summary: Dict):
         """Print test summary."""
         print("\n" + "=" * 60)
-        print("P-MCP COMPLIANCE TEST RESULTS")
+        print("PCP COMPLIANCE TEST RESULTS")
         print("=" * 60)
         print(f"Total:   {summary['total']}")
         print(f"Passed:  {summary['passed']}")
@@ -410,7 +410,7 @@ class PCPComplianceRunner:
 
 
 async def main():
-    parser = argparse.ArgumentParser(description="P-MCP Compliance Runner")
+    parser = argparse.ArgumentParser(description="PCP Compliance Runner")
     parser.add_argument(
         "--transport",
         choices=["stdio", "http"],

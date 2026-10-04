@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-P-MCP Chaos Engineering Tests
+PCP Chaos Engineering Tests
 ==============================
 
-Chaos engineering scenarios for P-MCP services.
+Chaos engineering scenarios for PCP services.
 
 Usage:
     python -m tests.chaos.test_chaos

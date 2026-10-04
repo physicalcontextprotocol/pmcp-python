@@ -1,7 +1,7 @@
 """
 Phase 2 — Digital Twin Tools
 =============================
-P-MCP actuations for the Hamiltonian digital twin layer.
+PCP actuations for the Hamiltonian digital twin layer.
 Bidirectional sync: real sensors → twin state, twin prediction → real execution.
 Violation detection → safety FSM events.
 """

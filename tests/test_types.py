@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-P-MCP Comprehensive Test Suite
+PCP Comprehensive Test Suite
 ===============================
-Tests for all P-MCP components
+Tests for all PCP components
 """
 
 import asyncio
@@ -13,7 +13,7 @@ from dataclasses import dataclass, field
 from typing import Any, Dict, List, Optional
 from enum import Enum
 
-# Import P-MCP modules
+# Import PCP modules
 import sys
 import os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -31,7 +31,7 @@ from v05.pcp_v5_types import (
 
 
 class TestTypes(unittest.TestCase):
-    """Test P-MCP type definitions."""
+    """Test PCP type definitions."""
     
     def test_version_constants(self):
         """Test version constants are defined."""

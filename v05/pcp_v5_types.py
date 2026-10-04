@@ -1,5 +1,5 @@
 """
-P-MCP v0.5 — Types
+PCP v0.5 — Types
 ===================
 All data types for the Physical Context Protocol v0.5.
 
@@ -35,7 +35,7 @@ MCP_VERSION = "2024-11-05"  # Anthropic MCP spec version we align with
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-#  ERROR CODES  (JSON-RPC standard + P-MCP physical extensions)
+#  ERROR CODES  (JSON-RPC standard + PCP physical extensions)
 # ─────────────────────────────────────────────────────────────────────────────
 
 
@@ -47,7 +47,7 @@ class PCPErrorCode(int, Enum):
     INVALID_PARAMS = -32602
     INTERNAL_ERROR = -32603
 
-    # P-MCP Physical Safety  (-33000 range)
+    # PCP Physical Safety  (-33000 range)
     SHADOW_BLOCKED = -33001  # Shadow validator rejected trajectory
     CONSTITUTION_BLOCKED = -33002  # Safety constitution rule violated
     LEASE_REQUIRED = -33003  # No valid lease for this zone
@@ -237,7 +237,7 @@ class ActuationParameter:
 @dataclass
 class ActuationSpec:
     """
-    Describes a single physical actuation — the P-MCP equivalent of an MCP Tool.
+    Describes a single physical actuation — the PCP equivalent of an MCP Tool.
 
     Wire format is MCP-compatible: exposed via tools/list and tools/call.
     Extra fields in inputSchema annotations carry the physical metadata.
@@ -270,7 +270,7 @@ class ActuationSpec:
                 "properties": properties,
                 "required": required,
             },
-            # P-MCP physical extension — stored in annotations
+            # PCP physical extension — stored in annotations
             "annotations": {
                 "robot_id": self.robot_id,
                 "category": self.category,
@@ -347,7 +347,7 @@ class SensorType(str, Enum):
 @dataclass
 class SensorSpec:
     """
-    Describes a sensor data stream — P-MCP equivalent of an MCP Resource.
+    Describes a sensor data stream — PCP equivalent of an MCP Resource.
 
     Wire format: exposed via resources/list and resources/read.
     """
@@ -427,7 +427,7 @@ class MissionArgument:
 @dataclass
 class MissionSpec:
     """
-    Describes a reusable robot mission template — P-MCP equivalent of MCP Prompt.
+    Describes a reusable robot mission template — PCP equivalent of MCP Prompt.
 
     Missions are structured robot programs that an LLM fills in and the
     PCPServer expands into a sequence of actuation calls.
@@ -598,7 +598,7 @@ class Capabilities:
     logging: bool = True
     sampling: bool = False  # server-initiated LLM sampling
 
-    # P-MCP physical extensions
+    # PCP physical extensions
     shadow: bool = True  # shadow/preview method available
     leases: bool = True  # lease/request + lease/release available
     estop: bool = True  # pcp/estop available
@@ -618,7 +618,7 @@ class Capabilities:
             caps["logging"] = {}
         if self.sampling:
             caps["sampling"] = {}
-        # P-MCP extension namespace
+        # PCP extension namespace
         caps["experimental"] = {
             "pcp": {
                 "version": PCP_VERSION,

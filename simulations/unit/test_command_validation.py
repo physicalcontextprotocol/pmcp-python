@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-P-MCP Command Validation Tests
+PCP Command Validation Tests
 ===============================
 
 Unit tests for command validation and safety checks.

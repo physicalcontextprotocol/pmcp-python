@@ -4,7 +4,7 @@ Hamiltonian Violation Detector
 Continuous monitoring for energy conservation violations.
 When drift exceeds threshold → triggers HAMILTONIAN_VIOLATION event.
 
-Plugs into your existing P-MCP safety FSM via trigger_event().
+Plugs into your existing PCP safety FSM via trigger_event().
 """
 
 from __future__ import annotations

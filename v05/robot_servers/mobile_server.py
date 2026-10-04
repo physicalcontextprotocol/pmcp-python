@@ -1,5 +1,5 @@
 """
-P-MCP v0.5 — Mobile Robot Server (AMR / TurtleBot / Spot)
+PCP v0.5 — Mobile Robot Server (AMR / TurtleBot / Spot)
 ==========================================================
 MCP-compatible server for autonomous mobile robots.
 
@@ -408,7 +408,7 @@ def build_mobile_server(
 if __name__ == "__main__":
     import argparse
 
-    parser = argparse.ArgumentParser(description="P-MCP Mobile Robot Server v0.5")
+    parser = argparse.ArgumentParser(description="PCP Mobile Robot Server v0.5")
     parser.add_argument("--transport", default="stdio", choices=["stdio", "http"])
     parser.add_argument("--port", type=int, default=8081)
     parser.add_argument("--host", default="127.0.0.1")

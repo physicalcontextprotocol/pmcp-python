@@ -1,5 +1,5 @@
 """
-P-MCP v0.5 — Agricultural Robot Server
+PCP v0.5 — Agricultural Robot Server
 =======================================
 MCP-compatible server for precision agriculture robots.
 
@@ -367,7 +367,7 @@ def build_agricultural_server(
 if __name__ == "__main__":
     import argparse
 
-    parser = argparse.ArgumentParser(description="P-MCP Agricultural Robot Server v0.5")
+    parser = argparse.ArgumentParser(description="PCP Agricultural Robot Server v0.5")
     parser.add_argument("--transport", default="stdio", choices=["stdio", "http"])
     parser.add_argument("--port", type=int, default=8082)
     parser.add_argument("--host", default="127.0.0.1")

@@ -1,9 +1,9 @@
 """
-P-MCP SDK — Safety Middleware
+PCP SDK — Safety Middleware
 ==============================
 The safety pipeline that runs between "actuation received" and "hardware moves".
 
-This is P-MCP's killer feature vs plain MCP — three automatic safety layers:
+This is PCP's killer feature vs plain MCP — three automatic safety layers:
   1. ConstitutionGuard — TEE-signed hard rules (ISO 10218 / IEC 62443)
   2. ShadowValidator   — ghost simulation before any hardware movement
   3. LeaseGuard        — temporal zone ownership to prevent collision
@@ -90,7 +90,7 @@ _BUILTIN_RULES: List[tuple] = [
 
 class SafetyMiddleware:
     """
-    Composable safety pipeline for P-MCP servers.
+    Composable safety pipeline for PCP servers.
 
     Layers (in order):
       1. Constitution rules  — hard-coded or custom ruleset

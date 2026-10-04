@@ -1,5 +1,5 @@
 """
-P-MCP v0.5 — Universal Robotic Arm Server
+PCP v0.5 — Universal Robotic Arm Server
 ==========================================
 Production-ready MCP-compatible server for 6-DOF robotic arms.
 Tested robot families: UR5/UR10, KUKA KR, ABB IRB, Fanuc M-series.
@@ -441,7 +441,7 @@ def build_arm_server(
 if __name__ == "__main__":
     import argparse
 
-    parser = argparse.ArgumentParser(description="P-MCP Arm Server v0.5")
+    parser = argparse.ArgumentParser(description="PCP Arm Server v0.5")
     parser.add_argument("--transport", default="stdio", choices=["stdio", "http"])
     parser.add_argument("--port", type=int, default=8080)
     parser.add_argument("--host", default="127.0.0.1")

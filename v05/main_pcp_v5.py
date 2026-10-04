@@ -1,10 +1,10 @@
 """
-P-MCP v0.5 — Main Integration Demo
+PCP v0.5 — Main Integration Demo
 =====================================
 "The Physical Layer of the Agentic Web"
 
 What this demo proves:
-  1. ANY MCP client (Claude Desktop, Cursor, etc.) can connect to P-MCP servers
+  1. ANY MCP client (Claude Desktop, Cursor, etc.) can connect to PCP servers
   2. Robot actuations appear as standard MCP Tools
   3. Sensor streams appear as standard MCP Resources
   4. Full safety pipeline: constitution → shadow → execute
@@ -336,7 +336,7 @@ async def demo_multi_robot() -> None:
 
 async def main(demo: str = "all") -> None:
     print("\n" + "╔" + "═" * 66 + "╗")
-    print("║   P-MCP v0.5 — Physical Context Protocol                 ║")
+    print("║   PCP v0.5 — Physical Context Protocol                 ║")
     print("║   'The USB-C port for robot AI — now MCP-wire-compatible'      ║")
     print("╚" + "═" * 66 + "╝")
     print()
@@ -360,7 +360,7 @@ async def main(demo: str = "all") -> None:
         print(f"Unknown demo: {demo}. Choose from: {list(demos.keys())} | all")
 
     sep("SUMMARY")
-    print("  ✅ P-MCP v0.5 — all demos passed")
+    print("  ✅ PCP v0.5 — all demos passed")
     print("  ✅ MCP wire protocol compatible (tools/list, tools/call, etc.)")
     print("  ✅ Safety pipeline: constitution → shadow → execute")
     print("  ✅ Temporal leases prevent physical collisions")
@@ -372,7 +372,7 @@ async def main(demo: str = "all") -> None:
 if __name__ == "__main__":
     import argparse
 
-    parser = argparse.ArgumentParser(description="P-MCP v0.5 Demo")
+    parser = argparse.ArgumentParser(description="PCP v0.5 Demo")
     parser.add_argument("--demo", default="all", choices=["all", "arm", "mobile", "agri", "multi"])
     args = parser.parse_args()
     asyncio.run(main(args.demo))
@@ -382,7 +382,7 @@ def main_cli() -> None:
     """Console-script entry point: `pcp-demo`."""
     import argparse
 
-    parser = argparse.ArgumentParser(description="P-MCP v0.5 Demo")
+    parser = argparse.ArgumentParser(description="PCP v0.5 Demo")
     parser.add_argument("--demo", default="all", choices=["all", "arm", "mobile", "agri", "multi"])
     args = parser.parse_args()
     asyncio.run(main(args.demo))

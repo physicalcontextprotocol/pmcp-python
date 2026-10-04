@@ -1,6 +1,6 @@
 # pmcp-python
 
-Python implementation of P-MCP.
+Python implementation of PCP.
 
 ## Layout
 - `pcp/` — the packaged library (`pip install pcp`, see

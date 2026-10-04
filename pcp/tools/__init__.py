@@ -1,5 +1,5 @@
 """
-P-MCP Tools — MCP tool registrations for all phases.
+PCP Tools — MCP tool registrations for all phases.
 """
 
 from pcp.tools.fleet_tools import register_fleet_tools

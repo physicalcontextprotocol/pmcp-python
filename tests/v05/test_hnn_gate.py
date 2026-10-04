@@ -1,5 +1,5 @@
 """
-P-MCP v0.5 — Optional HNN Gate 4 tests
+PCP v0.5 — Optional HNN Gate 4 tests
 ======================================
 Tests for the opt-in Hamiltonian Neural Network energy-conservation check.
 Validates:

@@ -1,5 +1,5 @@
 """
-P-MCP v0.5 — PCPServer
+PCP v0.5 — PCPServer
 ========================
 MCP-wire-compatible robot server.
 
@@ -205,7 +205,7 @@ class _LeaseManager:
 
 class PCPServer:
     """
-    P-MCP Server — robot-side MCP-compatible endpoint.
+    PCP Server — robot-side MCP-compatible endpoint.
 
     Exposes robot actuations as MCP Tools, sensors as MCP Resources,
     and missions as MCP Prompts.  Adds a mandatory safety pipeline
@@ -265,7 +265,7 @@ class PCPServer:
             "prompts/list": self._h_prompts_list,
             "prompts/get": self._h_prompts_get,
             "logging/setLevel": self._h_logging_set_level,
-            # P-MCP physical extensions
+            # PCP physical extensions
             "shadow/preview": self._h_shadow_preview,
             "lease/request": self._h_lease_request,
             "lease/release": self._h_lease_release,
@@ -446,9 +446,9 @@ class PCPServer:
         """MCP tools/call — executes an actuation through the safety pipeline."""
         name = params.get("name", "")
         arguments = params.get("arguments", {})
-        lease_token = params.get("_lease_token")  # P-MCP extension
+        lease_token = params.get("_lease_token")  # PCP extension
         zone_id = params.get("_zone_id")
-        fence_token = params.get("_fence_token")  # P-MCP extension — see LeaseGrant.fence_token
+        fence_token = params.get("_fence_token")  # PCP extension — see LeaseGrant.fence_token
 
         entry = self._actuations.get(name)
         if not entry:
@@ -502,7 +502,7 @@ class PCPServer:
 
         response = {"content": content, "isError": is_error}
         if preview:
-            response["_shadow"] = preview.to_dict()  # P-MCP extension field
+            response["_shadow"] = preview.to_dict()  # PCP extension field
         return response
 
     async def _h_resources_list(self, params: dict) -> dict:
@@ -553,7 +553,7 @@ class PCPServer:
         logging.getLogger("pcp").setLevel(getattr(logging, level, logging.INFO))
         return {}
 
-    # ── P-MCP Physical Extension Handlers ────────────────────────────────────
+    # ── PCP Physical Extension Handlers ────────────────────────────────────
 
     async def _h_shadow_preview(self, params: dict) -> dict:
         """shadow/preview — run pre-flight simulation without executing."""
@@ -756,7 +756,7 @@ def main() -> None:
 
     from v05.pcp_v5_types import ActuationResult
 
-    parser = argparse.ArgumentParser(description="P-MCP v0.5 reference server")
+    parser = argparse.ArgumentParser(description="PCP v0.5 reference server")
     parser.add_argument("--name", default="pcp-server", help="server name")
     parser.add_argument("--transport", default="stdio", choices=["stdio", "http"])
     parser.add_argument("--port", type=int, default=8080)

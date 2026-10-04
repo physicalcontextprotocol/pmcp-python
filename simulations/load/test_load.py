@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-P-MCP Load Testing
+PCP Load Testing
 ==================
 
-Load testing scenarios for P-MCP services.
+Load testing scenarios for PCP services.
 
 Usage:
     python -m tests.load.test_load

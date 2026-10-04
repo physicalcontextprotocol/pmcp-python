@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-P-MCP End-to-End Fleet Workflow Tests
+PCP End-to-End Fleet Workflow Tests
 ======================================
 
 Integration tests for complete fleet management workflows.

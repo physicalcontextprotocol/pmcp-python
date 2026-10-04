@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-P-MCP Performance Benchmarks
+PCP Performance Benchmarks
 ============================
 
-Benchmark suite for P-MCP services.
+Benchmark suite for PCP services.
 
 Usage:
     python -m tests.benchmark.benchmark_suite

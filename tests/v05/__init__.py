@@ -1,1 +1,1 @@
-"""P-MCP test package."""
+"""PCP test package."""

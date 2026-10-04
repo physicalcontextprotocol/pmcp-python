@@ -1,5 +1,5 @@
 """
-P-MCP v0.5 — Safety Constitution
+PCP v0.5 — Safety Constitution
 ==================================
 ISO 10218 / IEC 62443 compliant safety rules for robot tool calls.
 
@@ -480,7 +480,7 @@ class ShadowSimulator:
 
 class SafetyMiddleware:
     """
-    Enforces the P-MCP three-layer safety pipeline before any actuation executes:
+    Enforces the PCP three-layer safety pipeline before any actuation executes:
       1. LeaseCheck       — robot holds valid zone lease
       2. ConstitutionCheck — ISO hard rules
       3. ShadowPreview    — 3D simulation

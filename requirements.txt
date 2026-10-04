@@ -1,5 +1,5 @@
 # ──────────────────────────────────────────────────────────────────────────────
-# P-MCP v0.4 — Python requirements
+# PCP v0.4 — Python requirements
 #
 # Quick start (no hardware):
 #   pip install cryptography websockets

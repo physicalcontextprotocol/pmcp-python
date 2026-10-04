@@ -1,5 +1,5 @@
 """
-P-MCP v0.5 SDK — Unit Tests
+PCP v0.5 SDK — Unit Tests
 ============================
 Tests for the shipping v0.5 surface:
   - PCPServer construction and decorator API

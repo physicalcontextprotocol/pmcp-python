@@ -1,9 +1,9 @@
 """
 Phase 1 — Hamiltonian Tools
 =============================
-P-MCP tools for Hamiltonian physics operations.
+PCP tools for Hamiltonian physics operations.
 
-These tools expose Hamiltonian mechanics as P-MCP actuations,
+These tools expose Hamiltonian mechanics as PCP actuations,
 enabling Claude agents to query and manipulate robot physics
 using phase space coordinates (q, p) and energy conservation.
 

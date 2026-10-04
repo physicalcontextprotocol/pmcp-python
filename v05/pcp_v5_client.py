@@ -1,9 +1,9 @@
 """
-P-MCP v0.5 — PCPClient
+PCP v0.5 — PCPClient
 ========================
 LLM-side MCP-compatible client for robot servers.
 
-Works with any P-MCP server (stdio or HTTP) and any standard MCP server.
+Works with any PCP server (stdio or HTTP) and any standard MCP server.
 
 NOTE: This is the reference implementation backing the ``pcp-server`` /
 ``pcp-demo`` console-script entry points (see pyproject.toml) and the
@@ -159,7 +159,7 @@ class _InProcessTransport(_Transport):
 
 class PCPClient:
     """
-    P-MCP Client — the LLM/orchestrator side of the protocol.
+    PCP Client — the LLM/orchestrator side of the protocol.
 
     Discovers and calls robot actuations with built-in safety workflow:
       1. list_tools()      — discover what the robot can do
@@ -245,7 +245,7 @@ class PCPClient:
         log.info(
             f"[Client] Connected to {self._server_info.get('name','?')} "
             f"v{self._server_info.get('version','?')} "
-            f"(P-MCP {pcp_meta.get('version','?')})"
+            f"(PCP {pcp_meta.get('version','?')})"
         )
         self._initialized = True
 
@@ -309,10 +309,10 @@ class PCPClient:
         """Ping the robot server."""
         return await self._rpc("ping")
 
-    # ── P-MCP Physical extension methods ─────────────────────────────────────
+    # ── PCP Physical extension methods ─────────────────────────────────────
 
     async def shadow_preview(self, actuation_name: str, arguments: Optional[dict] = None) -> dict:
-        """Run pre-flight simulation without executing (P-MCP extension)."""
+        """Run pre-flight simulation without executing (PCP extension)."""
         return await self._rpc(
             "shadow/preview", {"name": actuation_name, "arguments": arguments or {}}
         )
@@ -324,7 +324,7 @@ class PCPClient:
         bid_energy_j: float = 100.0,
         priority: int = 5,
     ) -> dict:
-        """Request a temporal zone lease (P-MCP extension)."""
+        """Request a temporal zone lease (PCP extension)."""
         return await self._rpc(
             "lease/request",
             {
@@ -336,23 +336,23 @@ class PCPClient:
         )
 
     async def release_lease(self, lease_id: str) -> dict:
-        """Release a temporal zone lease (P-MCP extension)."""
+        """Release a temporal zone lease (PCP extension)."""
         return await self._rpc("lease/release", {"leaseId": lease_id})
 
     async def estop(self, active: bool = True) -> dict:
-        """Activate or deactivate emergency stop (P-MCP extension)."""
+        """Activate or deactivate emergency stop (PCP extension)."""
         return await self._rpc("pcp/estop", {"active": active})
 
     async def get_status(self) -> dict:
-        """Get server status (P-MCP extension)."""
+        """Get server status (PCP extension)."""
         return await self._rpc("pcp/status")
 
     async def get_identity(self) -> dict:
-        """Get robot identity (DID) (P-MCP extension)."""
+        """Get robot identity (DID) (PCP extension)."""
         return await self._rpc("pcp/identity")
 
     async def get_constitution(self) -> dict:
-        """Get loaded safety constitution (P-MCP extension)."""
+        """Get loaded safety constitution (PCP extension)."""
         return await self._rpc("pcp/constitution")
 
     # ── High-level safe_call helper ───────────────────────────────────────────

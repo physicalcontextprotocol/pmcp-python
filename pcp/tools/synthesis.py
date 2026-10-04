@@ -1,8 +1,8 @@
 """
-P-MCP Dynamic Tool Synthesis v2
+PCP Dynamic Tool Synthesis v2
 =================================
 Given a robot's capability profile and a natural-language task description,
-automatically compose and register new P-MCP tools by:
+automatically compose and register new PCP tools by:
 
   1. Parsing the task with an LLM (or heuristic parser)
   2. Mapping required capabilities to existing tools/actuations
@@ -15,7 +15,7 @@ Design
 - `CapabilityProfile` — set of actuations/sensors a robot exposes
 - `ToolTemplate`      — parameterised recipe with slot variables
 - `Synthesiser`       — orchestrates LLM call → template selection → code gen
-- `SynthesisedTool`   — generated callable implementing the P-MCP tool protocol
+- `SynthesisedTool`   — generated callable implementing the PCP tool protocol
 - `ToolRegistry`      — runtime registry keyed by tool_id
 """
 

@@ -1,5 +1,5 @@
 """
-P-MCP Physics Engine Integration
+PCP Physics Engine Integration
 ==================================
 Pluggable physics backend for shadow simulation.
 Supports PyBullet, MuJoCo, and a built-in analytical solver.

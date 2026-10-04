@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-P-MCP Security Tests
+PCP Security Tests
 =====================
 
-Comprehensive security and stress tests for P-MCP including:
+Comprehensive security and stress tests for PCP including:
 - mTLS authentication tests
 - Certificate validation tests
 - Rate limiting tests
@@ -153,7 +153,7 @@ class MTLSTestSuite:
     """Test suite for mTLS functionality."""
 
     def __init__(self):
-        self.ca = CertificateAuthority("P-MCP Test CA")
+        self.ca = CertificateAuthority("PCP Test CA")
         self.test_results: List[Dict[str, Any]] = []
 
     def test_certificate_issuance(self):
@@ -331,7 +331,7 @@ class RateLimitTestSuite:
 
 
 class StressTestSuite:
-    """Stress testing for P-MCP components."""
+    """Stress testing for PCP components."""
 
     def __init__(self):
         self.results: List[Dict[str, Any]] = []
@@ -575,7 +575,7 @@ class SecurityVulnerabilityTestSuite:
 async def run_all_tests():
     """Run all security test suites."""
     logger.info("=" * 60)
-    logger.info("Starting P-MCP Security Tests")
+    logger.info("Starting PCP Security Tests")
     logger.info("=" * 60)
 
     mtls_suite = MTLSTestSuite()

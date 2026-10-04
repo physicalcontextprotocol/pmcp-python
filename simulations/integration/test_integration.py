@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-P-MCP Integration Tests
+PCP Integration Tests
 ======================
 
-Integration tests for P-MCP components including:
+Integration tests for PCP components including:
 - Component communication tests
 - End-to-end workflow tests
 - Performance tests
@@ -86,7 +86,7 @@ class IntegrationTestSuite:
 
 
 class ComponentSimulator:
-    """Simulates P-MCP components for testing."""
+    """Simulates PCP components for testing."""
 
     def __init__(self):
         self.robot_states: Dict[str, Dict] = {}
@@ -334,7 +334,7 @@ def test_load():
 
 async def run_all_tests():
     """Run all integration tests."""
-    logger.info("Starting P-MCP Integration Tests")
+    logger.info("Starting PCP Integration Tests")
 
     test_suites = [
         ("Robot Registration", test_robot_registration),

@@ -1,5 +1,5 @@
 """
-P-MCP v0.5 — Recorded-Trajectory Replay Harness
+PCP v0.5 — Recorded-Trajectory Replay Harness
 ================================================
 Run a recorded joint-space or Cartesian trajectory through the full safety
 pipeline (lease → constitution → shadow → execute) without any hardware.

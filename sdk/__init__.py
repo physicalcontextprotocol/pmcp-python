@@ -1,7 +1,7 @@
 """
-P-MCP — Physical Context Protocol  v0.4
+PCP — Physical Context Protocol  v0.4
 ==============================================
-The Python SDK for P-MCP.  Install: pip install pcp
+The Python SDK for PCP.  Install: pip install pcp
 
     from pcp.server import PCPServer
     from pcp.client import PCPClient
@@ -13,7 +13,7 @@ Protocol spec: https://github.com/physicalcontextprotocol/pmcp-spec/blob/main/do
 from __future__ import annotations
 
 __version__      = "0.4.0"
-__protocol__     = "P-MCP/0.4"
+__protocol__     = "PCP/0.4"
 __spec_version__ = "2025-05-04"
 
 from pcp.types import (          # noqa: F401 — re-export for convenience

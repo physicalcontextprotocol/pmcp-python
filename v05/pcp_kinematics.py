@@ -1,5 +1,5 @@
 """
-P-MCP v0.5 — 6-DOF Forward Kinematics
+PCP v0.5 — 6-DOF Forward Kinematics
 ======================================
 Denavit-Hartenberg (modified) parameter model for serial 6-DOF robot arms.
 Used by the shadow simulator to verify that a target (x, y, z) is reachable
@@ -82,7 +82,7 @@ class KinematicChain:
 
     def __init__(self, links: Sequence[DHLink]):
         if len(links) != 6:
-            # P-MCP v0.5 targets 6-DOF arms; other topologies can be added later.
+            # PCP v0.5 targets 6-DOF arms; other topologies can be added later.
             raise ValueError(f"KinematicChain expects 6 links, got {len(links)}")
         self.links: Tuple[DHLink, ...] = tuple(links)
 

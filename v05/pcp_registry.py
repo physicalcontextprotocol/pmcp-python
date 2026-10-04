@@ -1,5 +1,5 @@
 """
-P-MCP v0.5 — Robot Registry
+PCP v0.5 — Robot Registry
 =============================
 Decentralized robot discovery — analogous to the MCP registry
 (https://github.com/modelcontextprotocol/registry) but for physical robots.
@@ -65,7 +65,7 @@ class RegistryEntry:
         return {
             "id": self.robot_id,
             "name": self.name,
-            "description": f"P-MCP robot: {self.model} at {self.location}",
+            "description": f"PCP robot: {self.model} at {self.location}",
             "repository": {"url": "https://github.com/physicalcontextprotocol/pmcp-python"},
             "versionDetail": {
                 "version": self.pcp_version,
@@ -241,7 +241,7 @@ async def run_registry_server(
     await runner.setup()
     site = web.TCPSite(runner, host, port)
     await site.start()
-    log.info(f"[Registry] P-MCP Registry listening on http://{host}:{port}")
+    log.info(f"[Registry] PCP Registry listening on http://{host}:{port}")
     await asyncio.Event().wait()
 
 
@@ -252,7 +252,7 @@ def main() -> None:
     """CLI entry point — serve the registry over HTTP."""
     import argparse
 
-    parser = argparse.ArgumentParser(description="P-MCP Registry server")
+    parser = argparse.ArgumentParser(description="PCP Registry server")
     parser.add_argument("--host", default="127.0.0.1")
     parser.add_argument("--port", type=int, default=9090)
     args = parser.parse_args()

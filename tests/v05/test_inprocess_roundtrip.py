@@ -1,5 +1,5 @@
 """
-P-MCP v0.5 — End-to-end integration test
+PCP v0.5 — End-to-end integration test
 =========================================
 Drives a real PCPServer through a real PCPClient over the in-process
 transport, verifying the full MCP handshake: initialize → tools/list →

@@ -1,5 +1,5 @@
 """
-P-MCP SDK — PCPServer
+PCP SDK — PCPServer
 ======================
 The core server class. Analogous to MCP's `mcp.server.Server`.
 
@@ -24,7 +24,7 @@ Usage:
         asyncio.run(server.run())      # stdio transport (default)
         # or: asyncio.run(server.run(transport="http", port=8080))
 
-The server automatically injects the P-MCP safety pipeline:
+The server automatically injects the PCP safety pipeline:
   1. LeaseCheck       — verify robot holds valid zone lease
   2. ConstitutionCheck — evaluate against TEE-signed safety rules
   3. ShadowPreview    — run ghost simulation
@@ -79,7 +79,7 @@ class _SensorHandler:
 
 class PCPServer:
     """
-    P-MCP Server — the robot-side endpoint of the protocol.
+    PCP Server — the robot-side endpoint of the protocol.
 
     Hosts register actuations (physical commands) and sensors (physical data),
     and the server handles the JSON-RPC 2.0 lifecycle with built-in
@@ -221,7 +221,7 @@ class PCPServer:
             "serverInfo": ServerInfo(
                 name=self.name, version=self.version).to_dict(),
             "instructions": (
-                "This is a P-MCP physical robot server. "
+                "This is a PCP physical robot server. "
                 "Use actuations/list to discover physical commands, "
                 "sensors/list for available sensor streams. "
                 "All actuations require shadow/preview to pass before execution."
@@ -404,12 +404,12 @@ class PCPServer:
 
     async def run(self, transport: str = "stdio", host: str = "localhost", port: int = 8080):
         """
-        Start the P-MCP server.
+        Start the PCP server.
 
         transport: "stdio"  — reads JSON-RPC from stdin, writes to stdout (default)
                    "http"   — serves HTTP POST /pcp endpoint
         """
-        log.info(f"  🤖  P-MCP Server '{self.name}' starting "
+        log.info(f"  🤖  PCP Server '{self.name}' starting "
                  f"(transport={transport}, actuations={len(self._actuations)}, "
                  f"sensors={len(self._sensors)})")
 
@@ -469,7 +469,7 @@ class PCPServer:
                 pass
 
         httpd = HTTPServer((host, port), Handler)
-        log.info(f"  🌐  P-MCP HTTP server on http://{host}:{port}/")
+        log.info(f"  🌐  PCP HTTP server on http://{host}:{port}/")
         httpd.serve_forever()
 
     # ── Info ──────────────────────────────────────────────────────────────────

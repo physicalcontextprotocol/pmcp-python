@@ -1,5 +1,5 @@
 """
-P-MCP Python SDK – Fleet Client
+PCP Python SDK – Fleet Client
 ================================
 High-level fleet management client for orchestrating multiple robots.
 
@@ -85,7 +85,7 @@ class RobotStatus:
 
 class FleetClient:
     """
-    Manages connections to a fleet of P-MCP robots.
+    Manages connections to a fleet of PCP robots.
 
     Example::
 

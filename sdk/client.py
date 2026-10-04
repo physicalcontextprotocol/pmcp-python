@@ -1,5 +1,5 @@
 """
-P-MCP SDK — PCPClient
+PCP SDK — PCPClient
 
 .. deprecated::
     This ``sdk/`` package predates the ``pcp/`` package restructuring and
@@ -7,7 +7,7 @@ P-MCP SDK — PCPClient
     :class:`pcp.client.PCPClient`. New code should import from ``pcp``,
     not ``sdk``.
 ======================
-The LLM / orchestration side of P-MCP.  Analogous to MCP's mcp.client.Client.
+The LLM / orchestration side of PCP.  Analogous to MCP's mcp.client.Client.
 
 Usage:
 
@@ -105,7 +105,7 @@ class _StdioTransport(_Transport):
 
 
 class _HTTPTransport(_Transport):
-    """HTTP POST transport — communicates with a P-MCP HTTP server."""
+    """HTTP POST transport — communicates with a PCP HTTP server."""
 
     def __init__(self, base_url: str):
         self._base = base_url.rstrip("/")
@@ -164,7 +164,7 @@ class _InProcessTransport(_Transport):
 
 class PCPClient:
     """
-    P-MCP Client — the LLM / orchestration side.
+    PCP Client — the LLM / orchestration side.
 
     Context manager:
         async with PCPClient() as client:
@@ -190,7 +190,7 @@ class PCPClient:
         return self
 
     async def connect_http(self, base_url: str) -> "PCPClient":
-        """Connect to a P-MCP HTTP server."""
+        """Connect to a PCP HTTP server."""
         transport = _HTTPTransport(base_url)
         await transport.connect()
         self._transport = transport
@@ -232,7 +232,7 @@ class PCPClient:
 
         # Send initialized notification
         await self._notify("notifications/initialized", {})
-        log.info(f"  🤝  Connected to P-MCP server: "
+        log.info(f"  🤝  Connected to PCP server: "
                  f"{self._server_info.get('name', '?')} "
                  f"v{self._server_info.get('version', '?')}")
 
@@ -332,7 +332,7 @@ class PCPClient:
         robot_id:    str = "",
     ) -> Tuple[dict, dict]:
         """
-        Full P-MCP safe execution flow in one call:
+        Full PCP safe execution flow in one call:
           1. shadow/preview  — simulate
           2. lease/request   — claim zone
           3. actuations/call — execute on hardware

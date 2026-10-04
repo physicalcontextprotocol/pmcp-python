@@ -1,5 +1,5 @@
 """
-P-MCP v0.5 — Kinematics + Replay tests
+PCP v0.5 — Kinematics + Replay tests
 =======================================
 Tests for the 6-DOF forward-kinematics model and the recorded-trajectory
 replay harness. These are the v0.5 substitute for "tested against a real

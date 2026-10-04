@@ -1,5 +1,5 @@
 """
-P-MCP SDK — Types
+PCP SDK — Types
 =================
 All data types for the Physical Context Protocol.
 
@@ -33,7 +33,7 @@ SPEC_DATE          = "2025-05-04"
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-#  ERROR CODES (JSON-RPC standard + P-MCP extensions)
+#  ERROR CODES (JSON-RPC standard + PCP extensions)
 # ─────────────────────────────────────────────────────────────────────────────
 
 class PCPErrorCode(int, Enum):
@@ -44,7 +44,7 @@ class PCPErrorCode(int, Enum):
     INVALID_PARAMS   = -32602
     INTERNAL_ERROR   = -32603
 
-    # P-MCP Physical Safety (-33000 range)
+    # PCP Physical Safety (-33000 range)
     SHADOW_BLOCKED       = -33001   # Shadow validator rejected the trajectory
     CONSTITUTION_BLOCKED = -33002   # Safety constitution rule violated
     LEASE_REQUIRED       = -33003   # No valid lease for this zone
@@ -202,7 +202,7 @@ class ActuationParameter:
 @dataclass
 class ActuationSpec:
     """
-    Describes a physical actuation (P-MCP primitive #1).
+    Describes a physical actuation (PCP primitive #1).
 
     Analogous to MCP Tool, but with physical safety metadata:
       - max_speed_m_s     hard velocity limit
@@ -284,7 +284,7 @@ class SensorType(str, Enum):
 @dataclass
 class SensorSpec:
     """
-    Describes a physical sensor (P-MCP primitive #2).
+    Describes a physical sensor (PCP primitive #2).
 
     Analogous to MCP Resource, but exposes real-time physical data.
     URI format:  pcp://sensor/{robot_id}/{sensor_name}
@@ -363,7 +363,7 @@ class PromptResult:
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-#  PHYSICAL SAFETY LAYER  (P-MCP extension beyond MCP)
+#  PHYSICAL SAFETY LAYER  (PCP extension beyond MCP)
 # ─────────────────────────────────────────────────────────────────────────────
 
 # ── Shadow Preview ────────────────────────────────────────────────────────────
@@ -381,7 +381,7 @@ class ShadowStatus(str, Enum):
 @dataclass
 class ShadowPreview:
     """
-    Pre-flight 3D simulation result (P-MCP primitive #4).
+    Pre-flight 3D simulation result (PCP primitive #4).
 
     Before any actuation executes on hardware, the Shadow layer
     runs a ghost simulation and returns this object.

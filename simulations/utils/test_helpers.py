@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-P-MCP Test Utilities
+PCP Test Utilities
 ====================
 
 Common test utilities and fixtures.
