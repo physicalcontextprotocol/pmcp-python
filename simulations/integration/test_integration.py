@@ -284,7 +284,7 @@ def test_robot_registration():
         workflow = WorkflowTest()
         suite.run_test(f"robot_registration_{i}", workflow.test_robot_registration_workflow)
 
-    return suite.failed_tests == 0
+    assert suite.failed_tests == 0, suite.get_summary()
 
 
 def test_robot_movement():
@@ -295,7 +295,7 @@ def test_robot_movement():
         workflow = WorkflowTest()
         suite.run_test(f"robot_movement_{i}", workflow.test_robot_movement_workflow)
 
-    return suite.failed_tests == 0
+    assert suite.failed_tests == 0, suite.get_summary()
 
 
 def test_telemetry_stream():
@@ -306,7 +306,7 @@ def test_telemetry_stream():
         workflow = WorkflowTest()
         suite.run_test(f"telemetry_stream_{i}", workflow.test_telemetry_stream_workflow)
 
-    return suite.failed_tests == 0
+    assert suite.failed_tests == 0, suite.get_summary()
 
 
 def test_performance():
@@ -317,7 +317,7 @@ def test_performance():
     suite.run_test("message_throughput", lambda: perf.test_message_throughput() > 100)
     suite.run_test("concurrent_updates", lambda: perf.test_concurrent_updates() > 100)
 
-    return suite.failed_tests == 0
+    assert suite.failed_tests == 0, suite.get_summary()
 
 
 def test_load():
@@ -329,7 +329,7 @@ def test_load():
 
     result = runner.run_concurrent_load_test(dummy_request)
 
-    return result["requests_per_second"] > 100
+    assert result["requests_per_second"] > 100, result
 
 
 async def run_all_tests():
