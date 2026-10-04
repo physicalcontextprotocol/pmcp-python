@@ -12,7 +12,7 @@ requires = [
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "pmcp"
+name = "physicalcontextprotocol"
 version = "1.0.0"
 description = "Physical Model Context Protocol — MCP-compatible standard protocol for robots and industrial systems"
 readme = "README.md"
