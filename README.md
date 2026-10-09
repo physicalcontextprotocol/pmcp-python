@@ -3,8 +3,9 @@
 Python implementation of PCP.
 
 ## Layout
-- `pcp/` — the packaged library (`pip install pcp`, see
-  `pyproject.toml`, version 0.5.0). Includes protocol, physics
+- `pcp/` — the packaged library. The PyPI distribution is
+  `physicalcontextprotocol` (`pip install physicalcontextprotocol`,
+  version 1.0.0); the import package is still `pcp`. Includes protocol, physics
   (Hamiltonian Neural Network validation), digital twin, fleet,
   learning, and tools submodules.
 - `v05/` — a parallel v0.5 implementation (server, client, types,

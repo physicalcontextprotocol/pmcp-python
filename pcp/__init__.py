@@ -44,7 +44,7 @@ try:
     # install reported 0.5.0 too, so the two agreed with each other and
     # disagreed with pyproject.toml. One source of truth, taken from the
     # metadata pyproject generates, cannot drift like that.
-    __version__ = _dist_version("pcp")
+    __version__ = _dist_version("physicalcontextprotocol")
 except PackageNotFoundError:  # running from a source tree, not installed
     __version__ = "0.0.0+unknown"
 

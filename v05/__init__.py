@@ -18,7 +18,7 @@ from importlib.metadata import PackageNotFoundError
 from importlib.metadata import version as _dist_version
 
 try:
-    __version__ = _dist_version("pcp")
+    __version__ = _dist_version("physicalcontextprotocol")
 except PackageNotFoundError:  # running from a source tree, not installed
     __version__ = "0.0.0+unknown"
 
