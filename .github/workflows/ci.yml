@@ -233,9 +233,18 @@ jobs:
       - name: Install package with dev + numerics + http extras
         run: pip install -e ".[dev,numerics,http]"
 
-      - name: Run integration + e2e + chaos + load suites
+      # The monorepo-era paths this step used to name -- tests/integration/,
+      # tests/e2e/, tests/chaos/, tests/load/ -- do not exist in this repo.
+      # Those files were moved to simulations/ on 2026-10-04 and are
+      # explicitly NOT tests (see simulations/README.md): they import no
+      # product code and assert against simulators defined in the same file,
+      # so running them here would manufacture green ticks that prove
+      # nothing. What is real is tests/v05/, the cross-module round-trip and
+      # SDK suite -- and this job is the one that installs the `http` extra,
+      # so it exercises a path the python-tests matrix does not.
+      - name: Run integration suite
         run: |
-          pytest tests/integration/ tests/e2e/ tests/chaos/ tests/load/ -v --timeout=60
+          pytest tests/v05/ -v --timeout=60
 
       - name: Smoke-test v05 demo (arm)
         run: |
