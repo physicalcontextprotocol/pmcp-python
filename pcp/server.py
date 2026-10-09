@@ -922,9 +922,7 @@ class PCPServer:
                     sys.stdout.write(json.dumps(response) + "\n")
                     sys.stdout.flush()
             except json.JSONDecodeError as e:
-                err = PCPResponse(
-                    id="", error=PCPError(PCPErrorCode.PARSE_ERROR, str(e))
-                ).to_dict()
+                err = PCPResponse(id="", error=PCPError(PCPErrorCode.PARSE_ERROR, str(e))).to_dict()
                 sys.stdout.write(json.dumps(err) + "\n")
                 sys.stdout.flush()
             except EOFError:

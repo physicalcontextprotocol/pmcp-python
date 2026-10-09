@@ -38,8 +38,7 @@ _LAZY = {
 _HINTS = {
     "torch": ("HamiltonianNN requires torch. Install it with: pip install 'pcp[hnn]'"),
     "numpy": (
-        "The Hamiltonian subpackage requires numpy. "
-        "Install it with: pip install 'pcp[numerics]'"
+        "The Hamiltonian subpackage requires numpy. " "Install it with: pip install 'pcp[numerics]'"
     ),
 }
 
