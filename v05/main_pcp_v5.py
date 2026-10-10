@@ -341,7 +341,7 @@ async def main(demo: str = "all") -> None:
     print("╚" + "═" * 66 + "╝")
     print()
     print("  Aligned with: https://modelcontextprotocol.io")
-    print("  GitHub:       https://github.com/physicalcontextprotocol/pmcp-python")
+    print("  GitHub:       https://github.com/physicalcontextprotocol/pcp-python")
     print("  Standard:     ISO 10218 / IEC 62443 / W3C DIDs")
 
     demos = {

@@ -1,4 +1,4 @@
-# pmcp-python
+# pcp-python
 
 Python implementation of PCP.
 
@@ -15,7 +15,7 @@ Python implementation of PCP.
 - `tests/` — everything except conformance (unit, integration, e2e,
   load, security, chaos, benchmark, v05, plus top-level test_types.py
   / test_compliance.py). Conformance tests now live in
-  `pmcp-conformance`.
+  `pcp-conformance`.
 
 ## ⚠️ Known issue: duplicate client implementations
 There are at least **four** separate client implementations shipping

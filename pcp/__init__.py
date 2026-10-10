@@ -49,7 +49,7 @@ except PackageNotFoundError:  # running from a source tree, not installed
     __version__ = "0.0.0+unknown"
 
 # The wire protocol is 0.5 and the JSON Schema is 0.6.0. Those are
-# different things on purpose -- see pmcp-spec/docs/PROTOCOL_SPEC.md 3.2,
+# different things on purpose -- see pcp-spec/docs/PROTOCOL_SPEC.md 3.2,
 # and tests/v05/test_v05_sdk.py asserts the 0.5 prefix. Do not "fix" this
 # to match __version__.
 __protocol__ = "PCP/0.5"

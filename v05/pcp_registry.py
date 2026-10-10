@@ -66,7 +66,7 @@ class RegistryEntry:
             "id": self.robot_id,
             "name": self.name,
             "description": f"PCP robot: {self.model} at {self.location}",
-            "repository": {"url": "https://github.com/physicalcontextprotocol/pmcp-python"},
+            "repository": {"url": "https://github.com/physicalcontextprotocol/pcp-python"},
             "versionDetail": {
                 "version": self.pcp_version,
                 "releaseDate": time.strftime("%Y-%m-%d", time.gmtime(self.registered_at)),

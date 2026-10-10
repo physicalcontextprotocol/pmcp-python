@@ -1,7 +1,7 @@
-# Security policy — pmcp-spec
+# Security policy — pcp-spec
 
 The default policy for this organization lives in
-[`pmcp-spec/SECURITY.md`](SECURITY.md) and applies here in full. This
+[`pcp-spec/SECURITY.md`](SECURITY.md) and applies here in full. This
 file records what is specific to the specification repository.
 
 ## Reporting
@@ -30,7 +30,7 @@ Do not open a public issue.
 - Disagreement with a design decision. That is a proposal — open an
   issue or a PR.
 - Defects in an implementation. Report those against
-  `pmcp-python` / `pmcp-typescript` / `pmcp-rust`.
+  `pcp-python` / `pcp-typescript` / `pcp-rust`.
 - Incomplete coverage the repository already documents, such as the
   missing per-method JSON-RPC schema registry noted in
   `schema/v0.6.0/README.md`.

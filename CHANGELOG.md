@@ -1,8 +1,8 @@
-# Changelog — pmcp-python
+# Changelog — pcp-python
 
 Changes to the Python SDK (`pip install physicalcontextprotocol`). Organization-wide policy
 and the maintained list of what is *not* yet proven live in
-[`pmcp-spec`](https://github.com/physicalcontextprotocol/pmcp-spec) —
+[`pcp-spec`](https://github.com/physicalcontextprotocol/pcp-spec) —
 see its `LIMITATIONS.md` and `SECURITY.md`.
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
@@ -48,7 +48,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
   name was never publishable. Use `pip install physicalcontextprotocol`.
 - Import namespaces are unchanged (`pcp`, `sdk`, `v05`), so
   `from pcp import PCPClient` keeps working. The parallel-implementation
-  consolidation is tracked in `pmcp-spec/MIGRATION_MAP.md` and is not
+  consolidation is tracked in `pcp-spec/MIGRATION_MAP.md` and is not
   addressed by this rename.
 
 ## [1.0.0] — 2026-09-28
@@ -64,7 +64,7 @@ First tagged public release.
   in `tests/v05/test_hnn_gate.py`, which cannot run when torch *is*
   installed (it asserts the missing-dependency path). It skips, it does
   not silently pass.
-- The 42-test `pmcp-conformance` suite passes against this SDK.
+- The 42-test `pcp-conformance` suite passes against this SDK.
 
   Earlier drafts of this changelog, the organization README, and
   `LIMITATIONS.md` all claimed **213 tests passing**. That figure did
@@ -107,7 +107,7 @@ suite rather than reading it:
   trusted publishing is configured on PyPI, remove the
   `needs`-style guard noted in `.github/workflows/ci.yml`.
 - Split out of the monorepo into its own repository, so this SDK reads
-  as a peer of `pmcp-typescript` and `pmcp-rust` rather than as the
+  as a peer of `pcp-typescript` and `pcp-rust` rather than as the
   reference implementation they are bindings of.
 
 ### Known limitations (documented, not fixed)
@@ -143,8 +143,8 @@ suite rather than reading it:
 - Six broken `[project.scripts]` entry points (`pcp-hub`,
   `pcp-marketplace`, `pcp-depin`, `pcp-multisig`, `pcp-swarm-coo`,
   `pcp-compliance`) whose target modules moved out of this package
-  during the pmcp-org split and whose target functions were coroutines
-  in any case. Only `pcp-server`, `pcp-demo`, `pmcp-registry`
+  during the pcp-org split and whose target functions were coroutines
+  in any case. Only `pcp-server`, `pcp-demo`, `pcp-registry`
   remain — the three that back the shipping `v05/` code.
 
 ### Fixed
@@ -179,7 +179,7 @@ the protocol surface is small, testable, and honest about what it ships.
   format compatible.
 - `RobotIdentity` — W3C DID + Ed25519 (via `cryptography`).
 - Three console-script entry points: `pcp-server`, `pcp-demo`,
-  `pmcp-registry`.
+  `pcp-registry`.
 - Three reference robot servers (arm, mobile, agricultural) as illustrative
   clients of the decorator API.
 - 213-test suite with 82% coverage on the shipping `v05/` code.
@@ -191,7 +191,7 @@ the protocol surface is small, testable, and honest about what it ships.
   multisig, swarm, compliance, edge, ledger, registry-server,
   simulator, community, reference_impl, tee-attestator,
   physics-federation, gateway, safety-loop, ros2-bridge). Earlier
-  protocol versions (v0.1–v0.4) are preserved in `pmcp-labs/` for
+  protocol versions (v0.1–v0.4) are preserved in `pcp-labs/` for
   reference.
 - **Core dependencies reduced** from `cryptography + torch + numpy` to just
   `cryptography`. The shadow sim works without numpy using a pure-Python
@@ -210,7 +210,7 @@ the protocol surface is small, testable, and honest about what it ships.
   unknown command types and had over-verbose messages for missing fields.
 - `FleetManager` (test-only utility) was not setting `status = "pending"`
   on `assign_task`, so `get_fleet_stats()["pending_tasks"]` was always 0.
-- Three CLI console scripts (`pcp-server`, `pcp-demo`, `pmcp-registry`)
+- Three CLI console scripts (`pcp-server`, `pcp-demo`, `pcp-registry`)
   referenced `main` / `main_cli` entry points that did not exist. Added.
 - `v05/__init__.py` was missing `ShadowSimulator`, `PCPRegistry`, and
   `RegistryEntry` from the public surface. Added.
@@ -227,6 +227,6 @@ the protocol surface is small, testable, and honest about what it ships.
 
 ## [0.1.0] – [0.4.0] — earlier development
 
-See `pmcp-labs/v01/` … `pmcp-labs/v04/` for the source of the
+See `pcp-labs/v01/` … `pcp-labs/v04/` for the source of the
 v0.1–v0.4 series. These versions are preserved for historical reference
 and are not on the supported path.

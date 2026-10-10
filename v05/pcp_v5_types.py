@@ -514,10 +514,10 @@ class ShadowPreview:
 
 
 class LeaseState(str, Enum):
-    # NOTE: values match pmcp-spec/schema/v0.6.0/pcp.schema.json's LeaseState
+    # NOTE: values match pcp-spec/schema/v0.6.0/pcp.schema.json's LeaseState
     # enum exactly (FREE/PENDING/ACTIVE/EXPIRED/DENIED). Earlier v05 code used
     # a non-conformant "GRANTED" value; that was a drift bug, not a deliberate
-    # naming choice -- confirmed against pmcp-labs/v04/pcp_temporal_lease.py,
+    # naming choice -- confirmed against pcp-labs/v04/pcp_temporal_lease.py,
     # which already used ACTIVE. FREE and PENDING are included for schema
     # conformance even though v05's non-Raft lease manager doesn't yet produce
     # PENDING grants (Raft-backed arbitration lands in a later version).

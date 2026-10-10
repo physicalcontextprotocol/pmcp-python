@@ -1,9 +1,9 @@
-# pmcp-python — reference Docker image
+# pcp-python — reference Docker image
 #
-# Build (from pmcp-org root, so this file's context is pmcp-python/):
-#   docker build -t pcp:0.5.0 -f pmcp-python/Dockerfile pmcp-python
+# Build (from pcp-org root, so this file's context is pcp-python/):
+#   docker build -t pcp:0.5.0 -f pcp-python/Dockerfile pcp-python
 #
-# Or from inside pmcp-python/:
+# Or from inside pcp-python/:
 #   docker build -t pcp:0.5.0 .
 #
 # Default entrypoint runs the in-process arm demo (no hardware needed).
@@ -14,7 +14,7 @@ FROM python:3.12-slim
 
 LABEL org.opencontainers.image.title="pcp" \
       org.opencontainers.image.description="Physical Context Protocol — MCP-compatible protocol for commanding physical robots with a mandatory safety pipeline" \
-      org.opencontainers.image.source="https://github.com/physicalcontextprotocol/pmcp-python" \
+      org.opencontainers.image.source="https://github.com/physicalcontextprotocol/pcp-python" \
       org.opencontainers.image.licenses="Apache-2.0" \
       org.opencontainers.image.version="0.5.0"
 

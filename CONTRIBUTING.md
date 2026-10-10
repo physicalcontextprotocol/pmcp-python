@@ -1,4 +1,4 @@
-# Contributing to pmcp-python
+# Contributing to pcp-python
 
 The Python SDK — the most complete of the three, and the one the other
 repositories reference.
@@ -33,7 +33,7 @@ organisation-wide figures were corrected to match a real run. If you
 find a discrepancy like this, fix the document rather than the number.
 
 If you change a test count, update
-[`pmcp-spec/LIMITATIONS.md`](https://github.com/physicalcontextprotocol/pmcp-spec/blob/main/LIMITATIONS.md)
+[`pcp-spec/LIMITATIONS.md`](https://github.com/physicalcontextprotocol/pcp-spec/blob/main/LIMITATIONS.md)
 in the same PR.
 
 ## The duplicate-implementation problem

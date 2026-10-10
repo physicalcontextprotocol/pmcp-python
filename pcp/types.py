@@ -433,7 +433,7 @@ class ShadowStatus(str, Enum):
 
 class ShadowVerdict(str, Enum):
     """
-    pmcp-spec/schema/v0.6.0 ShadowResult.verdict — set by the non-ML monitor,
+    pcp-spec/schema/v0.6.0 ShadowResult.verdict — set by the non-ML monitor,
     not the HNN directly (SAFETY_ARCHITECTURE.md sec 10.1). FAIL = hard limit
     violated. INDETERMINATE = confidence/OOD/ensemble check exceeded threshold
     ("I don't know" != "it's fine"). Both FAIL and INDETERMINATE block
@@ -442,7 +442,7 @@ class ShadowVerdict(str, Enum):
     would produce CONDITIONAL_PASS/INDETERMINATE from ensemble disagreement
     or conformal-prediction confidence intervals (see ConformalConfidence /
     MonitoringBlock / DeterminismBlock in the schema, and the open research
-    items in pmcp-spec on cross-hardware determinism budgets and conformal
+    items in pcp-spec on cross-hardware determinism budgets and conformal
     prediction under adversarial input — those remain unimplemented anywhere
     in this org today, so this SDK never fabricates them).
     """
@@ -500,7 +500,7 @@ class ShadowPreview:
             # deliberately omitted: they describe the HNN-Simplex monitor's
             # conformal-prediction and ensemble-disagreement output, which
             # is not implemented anywhere in this org yet (open research
-            # item, see pmcp-spec). Do not populate these with fake numbers.
+            # item, see pcp-spec). Do not populate these with fake numbers.
             "confidence": None,
             "monitoring": None,
             "determinism": None,
@@ -567,7 +567,7 @@ class ConstitutionCheck:
 
 class LeaseState(str, Enum):
     """
-    Matches pmcp-spec/schema/v0.6.0 LeaseState exactly. FREE and PENDING are
+    Matches pcp-spec/schema/v0.6.0 LeaseState exactly. FREE and PENDING are
     included for schema conformance even though this SDK's non-Raft lease
     manager doesn't yet produce PENDING grants (Raft-backed multi-replica
     arbitration is a later version; see SAFETY_ARCHITECTURE.md).

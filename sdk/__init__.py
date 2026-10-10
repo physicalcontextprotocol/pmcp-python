@@ -8,7 +8,7 @@ The Python SDK for PCP.  Install: pip install pcp
     from pcp.safety import SafetyMiddleware
     from pcp.types  import ActuationResult, SensorReading
 
-Protocol spec: https://github.com/physicalcontextprotocol/pmcp-spec/blob/main/docs/PROTOCOL_SPEC.md
+Protocol spec: https://github.com/physicalcontextprotocol/pcp-spec/blob/main/docs/PROTOCOL_SPEC.md
 """
 from __future__ import annotations
 

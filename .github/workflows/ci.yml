@@ -1,18 +1,18 @@
-name: pmcp-python CI
+name: pcp-python CI
 
 # This file replaces an earlier org-level ci.yml that:
 #   1. Referenced monorepo-era paths (v05/, pcp/ at a shared org root) that
 #      no longer match this repo's layout after the split into separate
-#      pmcp-spec / pmcp-python / pmcp-rust / pmcp-typescript / ... repos.
+#      pcp-spec / pcp-python / pcp-rust / pcp-typescript / ... repos.
 #      It also referenced docker/Dockerfile and typescript-sdk/, neither of
-#      which exists in this repo -- Docker packaging lives in pmcp-labs,
-#      and the TypeScript SDK is now the separate pmcp-typescript repo.
+#      which exists in this repo -- Docker packaging lives in pcp-labs,
+#      and the TypeScript SDK is now the separate pcp-typescript repo.
 #   2. Ended every meaningful check in `|| true`, so pytest/mypy/ruff/black/
 #      bandit/pip-audit failures could never fail the job -- including the
 #      jobs the release job below gates PyPI publishing on. Removed
 #      everywhere in this file; a real failure now fails the job.
 #   3. Referenced tests/conformance/, which doesn't exist in this repo (that
-#      content belongs in the separate pmcp-conformance repo).
+#      content belongs in the separate pcp-conformance repo).
 #
 # Every path and job below has been verified against this repo's actual
 # contents and a real local run (`pytest -q` -> 159 passed, 1 skipped,
@@ -308,12 +308,12 @@ jobs:
   #
   # TO ENABLE PUBLISHING:
   #   1. On PyPI: create the project, then add a GitHub trusted publisher
-  #      for repo `physicalcontextprotocol/pmcp-python`, workflow
+  #      for repo `physicalcontextprotocol/pcp-python`, workflow
   #      `ci.yml`, environment `release`.
   #   2. On GitHub: create the `release` environment (Settings > Environments).
   #   3. Set the repository variable:
   #        gh variable set PYPI_TRUSTED_PUBLISHING_ENABLED --body true \
-  #          -R physicalcontextprotocol/pmcp-python
+  #          -R physicalcontextprotocol/pcp-python
   #   4. Tag a release. The job will then run for real.
   # ===========================================================================
   release:
@@ -378,7 +378,7 @@ jobs:
     steps:
       - name: Report status
         run: |
-          echo "## pmcp-python CI Summary" >> "$GITHUB_STEP_SUMMARY"
+          echo "## pcp-python CI Summary" >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
           echo "| Job | Result |" >> "$GITHUB_STEP_SUMMARY"
           echo "|-----|--------|" >> "$GITHUB_STEP_SUMMARY"

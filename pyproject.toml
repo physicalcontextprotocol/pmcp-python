@@ -150,8 +150,8 @@ hnn = [
 [project.scripts]
 # Only entry points backed by modules that ship in this package (v05/).
 # The former pcp-hub, pcp-marketplace, pcp-depin, pcp-multisig,
-# pcp-swarm-coo and pcp-compliance entries were removed in the pmcp-org
-# split: their target modules now live in pmcp-labs or pmcp-safety and
+# pcp-swarm-coo and pcp-compliance entries were removed in the pcp-org
+# split: their target modules now live in pcp-labs or pcp-safety and
 # are not importable from this package. Their target functions were also
 # async coroutines, unusable as console_scripts without a sync wrapper.
 pcp-server      = "v05.pcp_v5_server:main"
@@ -159,21 +159,21 @@ pcp-demo        = "v05.main_pcp_v5:main_cli"
 pcp-registry    = "v05.pcp_registry:main"
 
 [project.urls]
-Homepage      = "https://github.com/physicalcontextprotocol/pmcp-python"
-Documentation = "https://github.com/physicalcontextprotocol/pmcp-spec/blob/main/docs/PROTOCOL_README.md"
-Repository    = "https://github.com/physicalcontextprotocol/pmcp-python"
-Issues        = "https://github.com/physicalcontextprotocol/pmcp-python/issues"
-Specification = "https://github.com/physicalcontextprotocol/pmcp-spec/blob/main/docs/PROTOCOL_SPEC.md"
+Homepage      = "https://github.com/physicalcontextprotocol/pcp-python"
+Documentation = "https://github.com/physicalcontextprotocol/pcp-spec/blob/main/docs/PROTOCOL_README.md"
+Repository    = "https://github.com/physicalcontextprotocol/pcp-python"
+Issues        = "https://github.com/physicalcontextprotocol/pcp-python/issues"
+Specification = "https://github.com/physicalcontextprotocol/pcp-spec/blob/main/docs/PROTOCOL_SPEC.md"
 
 [tool.setuptools.packages.find]
 where = ["."]
-# Only packages that actually live inside pmcp-python. Everything else
+# Only packages that actually live inside pcp-python. Everything else
 # from the pre-split monorepo (marketplace, depin, multisig, swarm,
 # compliance, edge, cloud, ledger, registry, gateway, simulator,
 # community, reference_impl, safety_loop, tee_attestator, ros2_bridge,
 # typescript_sdk, rust, physics_federation, v01–v04) now lives in
-# pmcp-labs, pmcp-safety, pmcp-servers, pmcp-registry, pmcp-typescript,
-# or pmcp-rust — see MIGRATION_MAP.md at the pmcp-org root.
+# pcp-labs, pcp-safety, pcp-servers, pcp-registry, pcp-typescript,
+# or pcp-rust — see MIGRATION_MAP.md at the pcp-org root.
 include = [
     "v05*",
     "pcp*",
